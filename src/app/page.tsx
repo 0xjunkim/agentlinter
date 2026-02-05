@@ -1002,7 +1002,7 @@ export default function Home() {
                 Star on GitHub
               </a>
               <a
-                href="https://discord.com/invite/clawd"
+                href="https://github.com/seojoonkim/agentlinter/discussions"
                 target="_blank"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto"
               >
