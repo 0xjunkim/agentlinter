@@ -75,7 +75,7 @@ function RotatingAgentName() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % AGENT_NAMES.length);
-    }, 2400);
+    }, 2800);
     return () => clearInterval(timer);
   }, []);
 
@@ -83,15 +83,19 @@ function RotatingAgentName() {
     <span className="relative inline-block align-bottom">
       {/* Invisible sizer — always reserves width of the widest name */}
       <span className="invisible whitespace-nowrap" aria-hidden="true">Claude Code</span>
-      {/* Animated name — absolutely positioned, no layout shift */}
+      {/* Animated name — smooth entrance with spring-like easing */}
       <AnimatePresence mode="wait">
         <motion.span
           key={AGENT_NAMES[index]}
-          className="absolute left-0 bottom-0 whitespace-nowrap"
-          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          exit={{ opacity: 0, y: -16, filter: "blur(4px)" }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
+          className="absolute left-0 bottom-0 whitespace-nowrap bg-gradient-to-r from-[var(--text)] to-[var(--text-secondary)] bg-clip-text"
+          initial={{ opacity: 0, y: 24, filter: "blur(8px)", scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+          exit={{ opacity: 0, y: -20, filter: "blur(6px)", scale: 1.02 }}
+          transition={{
+            duration: 0.5,
+            ease: [0.22, 1, 0.36, 1],
+            opacity: { duration: 0.4 },
+          }}
         >
           {AGENT_NAMES[index]}
         </motion.span>
