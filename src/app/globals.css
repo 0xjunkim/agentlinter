@@ -21,6 +21,8 @@
   --color-amber: #fbbf24;
   --color-green: #34d399;
   --color-blue: #60a5fa;
+  --color-claude: #E27B4E;
+  --color-claude-dim: rgba(226, 123, 78, 0.12);
 }
 
 @layer base {
@@ -45,6 +47,8 @@
     --amber: #fbbf24;
     --green: #34d399;
     --blue: #60a5fa;
+    --claude: #E27B4E;
+    --claude-dim: rgba(226, 123, 78, 0.12);
   }
 
   html {

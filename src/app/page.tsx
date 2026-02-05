@@ -297,7 +297,7 @@ export default function Home() {
   return (
     <div className="min-h-screen noise">
       {/* ── Nav ── */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-2xl bg-[var(--bg)]/80 border-b border-[var(--border)] px-6 sm:px-8" style={{ paddingTop: "env(safe-area-inset-top)" }}>
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-2xl bg-[var(--bg)]/80 border-b border-[var(--border)] px-5 sm:px-8" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <div className="max-w-[1000px] mx-auto h-14 flex items-center">
           <div className="flex items-center gap-2.5">
             <Logo size={22} />
@@ -324,39 +324,39 @@ export default function Home() {
       {/* ══════════════════════════════════════
          HERO
          ══════════════════════════════════════ */}
-      <section className="pt-[120px] sm:pt-[140px] pb-8 sm:pb-12 px-6 sm:px-8">
+      <section className="pt-[120px] sm:pt-[140px] pb-8 sm:pb-12 px-5 sm:px-8">
         <div className="max-w-[1000px] mx-auto">
           <motion.div className="max-w-[700px]" initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--teal-dim)] text-[var(--teal)] text-[12px] mono mb-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--teal-dim)] text-[var(--teal)] text-[13px] mono mb-5">
               <Sparkles className="w-3 h-3" />
-              Optimized for CLAUDE.md · Free &amp; Open Source
+              Optimized for <span className="text-[var(--claude)]">CLAUDE.md</span> · Free &amp; Open Source
             </div>
 
-            <h1 className="display text-[40px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-tight mb-5">
+            <h1 className="display text-[36px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-tight mb-5">
               Is your agent
               <br />
               <span className="text-[var(--accent)] glow-text">sharp & secure?</span>
             </h1>
 
             <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] leading-[1.7] mb-8 max-w-[540px]">
-              Built on Anthropic&apos;s CLAUDE.md best practices. Lint your agent&apos;s clarity, structure, security, and consistency in one command.
+              Built on Anthropic&apos;s <span className="mono text-[var(--claude)] font-medium">CLAUDE.md</span> best practices. Lint your agent&apos;s clarity, structure, security, and consistency in one command.
               Catch leaked secrets, vague instructions, and broken references before they cost you.
             </p>
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-3 mb-5">
-              <div className="inline-flex items-center gap-3 px-5 py-3.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] transition-all">
+              <div className="inline-flex items-center gap-3 px-5 py-3.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] transition-all w-full sm:w-auto justify-center sm:justify-start">
                 <Terminal className="w-4 h-4 text-[var(--text-dim)]" />
                 <CopyCommand command="npx agentlinter" className="text-[15px]" />
               </div>
               <a href="https://github.com/seojoonkim/agentlinter" target="_blank"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all">
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto">
                 <Github className="w-4 h-4" />
                 View Source
               </a>
             </div>
 
-            <p className="text-[12px] text-[var(--text-dim)] mono">
+            <p className="text-[13px] text-[var(--text-dim)] mono">
               Free &amp; open source · No config needed · Runs in seconds
             </p>
           </motion.div>
@@ -369,9 +369,9 @@ export default function Home() {
       </section>
 
       {/* ── Trust Bar ── */}
-      <section className="py-8 sm:py-10 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section className="py-8 sm:py-10 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
-          <p className="text-center text-[11px] sm:text-[12px] text-[var(--text-dim)] mono mb-6 tracking-wider uppercase">
+          <p className="text-center text-[12px] sm:text-[13px] text-[var(--text-dim)] mono mb-6 tracking-wider uppercase">
             Built on open standards
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
@@ -384,7 +384,7 @@ export default function Home() {
               { label: "Windsurf", href: "https://codeium.com/windsurf" },
             ].map((item) => (
               <a key={item.label} href={item.href} target="_blank"
-                className="text-[12px] sm:text-[13px] text-[var(--text-dim)] hover:text-[var(--text-secondary)] transition-colors flex items-center gap-1">
+                className="text-[13px] sm:text-[14px] text-[var(--text-dim)] hover:text-[var(--text-secondary)] transition-colors flex items-center gap-1">
                 {item.label}
                 <ArrowUpRight className="w-3 h-3 opacity-40" />
               </a>
@@ -396,10 +396,10 @@ export default function Home() {
       {/* ══════════════════════════════════════
          WHY IT MATTERS
          ══════════════════════════════════════ */}
-      <section id="why" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section id="why" className="py-18 sm:py-24 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Why this matters</p>
+            <p className="text-[14px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Why this matters</p>
             <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-6 max-w-[700px]">
               Your agent config is code.
               <br />
@@ -425,8 +425,8 @@ export default function Home() {
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-[var(--accent-dim)] flex items-center justify-center text-[11px] font-bold text-[var(--accent)]">A</div>
                 <div>
-                  <div className="text-[13px] text-[var(--text)]">Anthropic</div>
-                  <a href="https://code.claude.com/docs/en/memory" target="_blank" className="text-[11px] text-[var(--accent)] hover:underline flex items-center gap-1">
+                  <div className="text-[14px] text-[var(--text)]">Anthropic</div>
+                  <a href="https://code.claude.com/docs/en/memory" target="_blank" className="text-[12px] text-[var(--accent)] hover:underline flex items-center gap-1">
                     CLAUDE.md Best Practices <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
@@ -463,10 +463,10 @@ export default function Home() {
                 <div className="p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] transition-all h-full">
                   <item.icon className="w-5 h-5 text-[var(--text-dim)] mb-5" />
                   <h3 className="font-semibold text-[15px] mb-3 leading-tight">{item.title}</h3>
-                  <p className="text-[13px] text-[var(--text-secondary)] leading-[1.7] mb-5">{item.desc}</p>
+                  <p className="text-[14px] text-[var(--text-secondary)] leading-[1.7] mb-5">{item.desc}</p>
                   <div className="pt-4 border-t border-[var(--border)]">
                     <span className="text-[22px] font-bold text-[var(--teal)]">{item.stat}</span>
-                    <p className="text-[11px] text-[var(--text-dim)] mt-1">{item.statLabel}</p>
+                    <p className="text-[12px] text-[var(--text-dim)] mt-1">{item.statLabel}</p>
                   </div>
                 </div>
               </FadeIn>
@@ -478,10 +478,10 @@ export default function Home() {
       {/* ══════════════════════════════════════
          HOW IT WORKS
          ══════════════════════════════════════ */}
-      <section id="how" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section id="how" className="py-18 sm:py-24 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How it works</p>
+            <p className="text-[14px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How it works</p>
             <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-5">
               One command. <span className="text-[var(--teal)]">Full diagnosis.</span>
             </h2>
@@ -522,8 +522,8 @@ export default function Home() {
                     <item.icon className="w-5 h-5 text-[var(--text-dim)] group-hover:text-[var(--teal)] transition-colors" />
                   </div>
                   <h3 className="text-[18px] font-semibold mb-3">{item.title}</h3>
-                  <p className="text-[13px] text-[var(--text-secondary)] leading-[1.7] mb-4">{item.desc}</p>
-                  <p className="text-[12px] text-[var(--text-dim)] leading-[1.6]">{item.detail}</p>
+                  <p className="text-[14px] text-[var(--text-secondary)] leading-[1.7] mb-4">{item.desc}</p>
+                  <p className="text-[13px] text-[var(--text-dim)] leading-[1.6]">{item.detail}</p>
                 </div>
               </FadeIn>
             ))}
@@ -534,10 +534,10 @@ export default function Home() {
       {/* ══════════════════════════════════════
          FIVE DIMENSIONS (technical depth)
          ══════════════════════════════════════ */}
-      <section className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section className="py-18 sm:py-24 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Scoring Engine</p>
+            <p className="text-[14px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Scoring Engine</p>
             <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-5">
               Five dimensions. <span className="text-[var(--accent)]">Real rules.</span>
             </h2>
@@ -606,12 +606,12 @@ export default function Home() {
                     {dim.rules.map((rule) => (
                       <li key={rule} className="flex items-start gap-2">
                         <span className="w-1 h-1 rounded-full bg-[var(--text-dim)] mt-2 shrink-0" />
-                        <span className="text-[12px] text-[var(--text-secondary)] leading-[1.5]">{rule}</span>
+                        <span className="text-[13px] text-[var(--text-secondary)] leading-[1.5]">{rule}</span>
                       </li>
                     ))}
                   </ul>
                   <div className="pt-3 border-t border-[var(--border)]">
-                    <code className="text-[10.5px] text-[var(--text-dim)] mono leading-[1.6] break-all">{dim.example}</code>
+                    <code className="text-[11.5px] text-[var(--text-dim)] mono leading-[1.6] break-all">{dim.example}</code>
                   </div>
                 </div>
               </FadeIn>
@@ -623,12 +623,12 @@ export default function Home() {
       {/* ══════════════════════════════════════
          VS ANTHROPIC OFFICIAL
          ══════════════════════════════════════ */}
-      <section id="compare" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section id="compare" className="py-18 sm:py-24 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How we&apos;re different</p>
+            <p className="text-[14px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How we&apos;re different</p>
             <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-4 max-w-[700px]">
-              Anthropic built the foundation.
+              <span className="text-[var(--claude)]">Anthropic</span> built the foundation.
               <br />
               <span className="text-[var(--accent)]">We built the linter.</span>
             </h2>
@@ -643,17 +643,17 @@ export default function Home() {
 
           {/* Comparison table */}
           <FadeIn delay={0.1}>
-            <div className="rounded-2xl border border-[var(--border)] overflow-hidden">
-              <div className="grid grid-cols-3 bg-white/[0.02]">
+            <div className="rounded-2xl border border-[var(--border)] overflow-hidden overflow-x-auto">
+              <div className="grid grid-cols-3 bg-white/[0.02] min-w-[600px]">
                 <div className="p-4 sm:p-5 border-r border-[var(--border)]">
-                  <span className="text-[12px] text-[var(--text-dim)] mono">Feature</span>
+                  <span className="text-[13px] text-[var(--text-dim)] mono">Feature</span>
                 </div>
                 <div className="p-4 sm:p-5 border-r border-[var(--border)] text-center">
-                  <div className="text-[13px] text-[var(--text-secondary)]">Claude Code</div>
-                  <div className="text-[10px] text-[var(--text-dim)] mono mt-0.5">Anthropic Official</div>
+                  <div className="text-[14px] text-[var(--text-secondary)]">Claude Code</div>
+                  <div className="text-[11px] text-[var(--text-dim)] mono mt-0.5">Anthropic Official</div>
                 </div>
                 <div className="p-4 sm:p-5 text-center">
-                  <div className="text-[13px] font-semibold text-[var(--accent)]">AgentLinter</div>
+                  <div className="text-[14px] font-semibold text-[var(--accent)]">AgentLinter</div>
                 </div>
               </div>
 
@@ -669,19 +669,19 @@ export default function Home() {
                 { feature: "Reports", official: "—", ours: "Web report + Share on X", os: "none", us: "full" },
                 { feature: "Frameworks", official: "Claude Code only", ours: "CC, Clawdbot, Cursor, Windsurf", os: "partial", us: "full" },
               ].map((row, i) => (
-                <div key={row.feature} className={`grid grid-cols-3 ${i % 2 === 0 ? "bg-[var(--bg)]" : "bg-white/[0.01]"}`}>
+                <div key={row.feature} className={`grid grid-cols-3 min-w-[600px] ${i % 2 === 0 ? "bg-[var(--bg)]" : "bg-white/[0.01]"}`}>
                   <div className="p-4 sm:p-5 border-r border-t border-[var(--border)]">
-                    <span className="text-[13px] font-medium">{row.feature}</span>
+                    <span className="text-[14px] font-medium">{row.feature}</span>
                   </div>
                   <div className="p-4 sm:p-5 border-r border-t border-[var(--border)] flex items-start gap-2">
                     {row.os === "full" ? <CircleCheck className="w-3.5 h-3.5 text-[var(--green)] mt-0.5 shrink-0" /> :
                      row.os === "partial" ? <CircleMinus className="w-3.5 h-3.5 text-[var(--amber)] mt-0.5 shrink-0" /> :
                      <Minus className="w-3.5 h-3.5 text-[var(--text-dim)] mt-0.5 shrink-0" />}
-                    <span className="text-[12px] text-[var(--text-secondary)]">{row.official}</span>
+                    <span className="text-[13px] text-[var(--text-secondary)]">{row.official}</span>
                   </div>
                   <div className="p-4 sm:p-5 border-t border-[var(--border)] flex items-start gap-2">
                     <CircleCheck className="w-3.5 h-3.5 text-[var(--accent)] mt-0.5 shrink-0" />
-                    <span className="text-[12px] text-[var(--text-secondary)]">{row.ours}</span>
+                    <span className="text-[13px] text-[var(--text-secondary)]">{row.ours}</span>
                   </div>
                 </div>
               ))}
@@ -695,7 +695,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-[14px] text-[var(--text)] font-medium mb-1">Not a replacement — an extension.</p>
-                <p className="text-[13px] text-[var(--text-secondary)] leading-[1.7]">
+                <p className="text-[14px] text-[var(--text-secondary)] leading-[1.7]">
                   AgentLinter builds on Anthropic&apos;s{" "}
                   <a href="https://code.claude.com/docs/en/memory" target="_blank" className="text-[var(--accent)] hover:underline">CLAUDE.md standard</a>
                   {" "}and the{" "}
@@ -711,12 +711,12 @@ export default function Home() {
       {/* ══════════════════════════════════════
          REPORT + SHARE
          ══════════════════════════════════════ */}
-      <section className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section className="py-18 sm:py-24 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <FadeIn>
               <div>
-                <p className="text-[13px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Reports</p>
+                <p className="text-[14px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Reports</p>
                 <h2 className="display text-[32px] sm:text-[48px] leading-[1.1] tracking-tight mb-5">
                   Your score card.
                   <br />
@@ -738,7 +738,7 @@ export default function Home() {
                       <div className="w-4 h-4 rounded-full bg-[var(--accent-dim)] flex items-center justify-center mt-0.5 shrink-0">
                         <Check className="w-2.5 h-2.5 text-[var(--accent)]" />
                       </div>
-                      <span className="text-[13px] text-[var(--text-secondary)] leading-[1.5]">{item}</span>
+                      <span className="text-[14px] text-[var(--text-secondary)] leading-[1.5]">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -757,10 +757,10 @@ export default function Home() {
       {/* ══════════════════════════════════════
          SELF-EVOLVING
          ══════════════════════════════════════ */}
-      <section className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section className="py-18 sm:py-24 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Intelligence</p>
+            <p className="text-[14px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Intelligence</p>
             <h2 className="display text-[32px] sm:text-[48px] leading-[1.1] tracking-tight mb-5">
               Rules that <span className="text-[var(--accent)]">learn.</span>
             </h2>
@@ -785,7 +785,7 @@ export default function Home() {
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center">
                       <s.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-dim)]" />
                     </div>
-                    <span className="text-[10px] sm:text-[11px] text-[var(--text-dim)] mono">{s.label}</span>
+                    <span className="text-[11px] sm:text-[12px] text-[var(--text-dim)] mono">{s.label}</span>
                   </div>
                   {i < 4 && <ChevronRight className="w-3 h-3 text-[var(--text-dim)] mt-[-16px]" />}
                 </div>
@@ -802,14 +802,14 @@ export default function Home() {
             ].map((item, i) => (
               <FadeIn key={item.title} delay={0.05 * i}>
                 <div className="p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)]">
-                  <span className="text-[10px] mono text-[var(--accent)] bg-[var(--accent-dim)] px-2 py-0.5 rounded-lg">{item.level}</span>
+                  <span className="text-[11px] mono text-[var(--accent)] bg-[var(--accent-dim)] px-2 py-0.5 rounded-lg">{item.level}</span>
                   <h3 className="font-semibold text-[14px] mt-3 mb-2">{item.title}</h3>
-                  <p className="text-[12px] text-[var(--text-secondary)] leading-[1.6]">{item.desc}</p>
+                  <p className="text-[13px] text-[var(--text-secondary)] leading-[1.6]">{item.desc}</p>
                 </div>
               </FadeIn>
             ))}
           </div>
-          <p className="text-[11px] text-[var(--text-dim)] mt-6 mono">All data anonymized · opt-out: --no-telemetry</p>
+          <p className="text-[12px] text-[var(--text-dim)] mt-6 mono">All data anonymized · opt-out: --no-telemetry</p>
         </div>
       </section>
 
