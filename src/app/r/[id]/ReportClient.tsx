@@ -1077,11 +1077,10 @@ export default function ReportPage({ data }: { data: ReportData }) {
         </div>
 
         {/* ═══════ Privacy Note ═══════ */}
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 flex items-start gap-3">
-          <Shield className="w-4 h-4 text-[var(--teal)] mt-0.5 shrink-0" />
+        <div className="rounded-xl border border-[var(--teal-dim)] bg-[var(--teal-dim)] p-4 flex items-start gap-3">
+          <CheckCircle2 className="w-4 h-4 text-[var(--teal)] mt-0.5 shrink-0" />
           <div className="text-[12px] text-[var(--text-secondary)] leading-relaxed">
-            <span className="font-medium text-[var(--teal)]">Privacy:</span> This report contains only scores, file names, and diagnostic messages.
-            Your actual file contents never leave your machine. AgentLinter runs 100% locally — no cloud, no API calls.{" "}
+            <span className="font-medium text-[var(--teal)]">Your data stays private.</span> AgentLinter runs 100% locally on your machine. Only scores, file names, and diagnostic messages are shared in this report — your actual file contents are never uploaded.{" "}
             <a href="https://agentlinter.com/#privacy" className="text-[var(--teal)] hover:underline">Learn more →</a>
           </div>
         </div>
