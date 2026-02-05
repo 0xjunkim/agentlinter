@@ -18,6 +18,8 @@ const AGENT_FILES = [
   "BOOTSTRAP.md",
   ".clauderc",
   ".agentlinterrc",
+  "clawdbot.json",
+  "openclaw.json",
 ];
 
 const AGENT_DIRS = [".claude", "claude", ".cursor", ".windsurf"];
@@ -63,7 +65,59 @@ export function scanWorkspace(workspacePath: string): FileInfo[] {
     }
   }
 
+  // Check ~/.clawdbot/clawdbot.json (runtime config)
+  const homeDir = process.env.HOME || process.env.USERPROFILE || "";
+  const clawdbotConfigPaths = [
+    path.join(homeDir, ".clawdbot", "clawdbot.json"),
+    path.join(homeDir, ".openclaw", "openclaw.json"),
+  ];
+  for (const configPath of clawdbotConfigPaths) {
+    if (fs.existsSync(configPath)) {
+      const name = path.basename(configPath);
+      files.push(parseFile(configPath, name));
+      break; // Only read the first one found
+    }
+  }
+
+  // Scan skills/ directory for skill safety checks
+  const skillsDirs = [
+    path.join(workspacePath, "skills"),
+    path.join(homeDir, ".clawdbot", "skills"),
+    path.join(homeDir, ".openclaw", "skills"),
+  ];
+  for (const skillsDir of skillsDirs) {
+    if (fs.existsSync(skillsDir) && fs.statSync(skillsDir).isDirectory()) {
+      scanSkillsDir(skillsDir, files, skillsDir);
+    }
+  }
+
   return files;
+}
+
+/**
+ * Recursively scan skills directory (max depth 3)
+ */
+function scanSkillsDir(dir: string, files: FileInfo[], baseDir: string, depth = 0) {
+  if (depth > 3) return;
+  try {
+    const entries = fs.readdirSync(dir);
+    for (const entry of entries) {
+      if (entry === "node_modules" || entry.startsWith(".")) continue;
+      const fullPath = path.join(dir, entry);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        scanSkillsDir(fullPath, files, baseDir, depth + 1);
+      } else if (entry === "SKILL.md" || entry.endsWith(".md")) {
+        const relativeName = "skills/" + path.relative(baseDir, fullPath);
+        // Avoid duplicates
+        if (!files.some((f) => f.path === fullPath)) {
+          files.push(parseFile(fullPath, relativeName));
+        }
+      }
+    }
+  } catch {
+    // Permission denied or other error — skip
+  }
 }
 
 /**

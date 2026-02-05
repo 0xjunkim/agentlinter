@@ -162,8 +162,8 @@ function formatTerminalColored(result: LintResult): string {
 
   // Diagnostics
   const sorted = [...result.diagnostics].sort((a, b) => {
-    const sevScore = { critical: 0, warning: 1, info: 2 };
-    return (sevScore[a.severity] - sevScore[b.severity]) || a.file.localeCompare(b.file);
+    const sevScore: Record<string, number> = { critical: 0, error: 0, warning: 1, info: 2 };
+    return ((sevScore[a.severity] ?? 1) - (sevScore[b.severity] ?? 1)) || a.file.localeCompare(b.file);
   });
 
   const criticals = sorted.filter(d => d.severity === 'critical');

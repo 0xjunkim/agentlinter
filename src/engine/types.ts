@@ -1,6 +1,6 @@
 /* ─── AgentLinter Core Types ─── */
 
-export type Severity = "error" | "warning" | "info";
+export type Severity = "critical" | "error" | "warning" | "info";
 
 export type Category =
   | "structure"

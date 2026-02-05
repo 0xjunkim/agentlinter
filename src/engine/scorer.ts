@@ -14,11 +14,19 @@ import { allRules } from "./rules";
  * Run all rules and compute scores
  */
 export function lint(workspacePath: string, files: FileInfo[]): LintResult {
-  // Run all rules
+  // Separate core agent files from skill files
+  const coreFiles = files.filter((f) => !f.name.startsWith("skills/"));
+  const skillFiles = files.filter((f) => f.name.startsWith("skills/"));
+
+  // Run all rules — skill files only go through skillSafety + runtime rules
   const allDiagnostics: Diagnostic[] = [];
   for (const rule of allRules) {
     try {
-      const diagnostics = rule.check(files);
+      const targetFiles =
+        rule.category === "skillSafety" || rule.category === "runtime"
+          ? files       // these categories check everything
+          : coreFiles;  // other categories only check core agent files
+      const diagnostics = rule.check(targetFiles);
       allDiagnostics.push(...diagnostics);
     } catch (e) {
       // Rule failed — skip silently

@@ -1,6 +1,6 @@
 /* ─── AgentLinter Core Types ─── */
 
-export type Severity = "error" | "warning" | "info";
+export type Severity = "critical" | "error" | "warning" | "info";
 
 export type Category =
   | "structure"
@@ -8,7 +8,9 @@ export type Category =
   | "completeness"
   | "security"
   | "consistency"
-  | "memory";
+  | "memory"
+  | "runtime"
+  | "skillSafety";
 
 export interface Diagnostic {
   severity: Severity;
@@ -61,12 +63,14 @@ export interface Rule {
 }
 
 export const CATEGORY_WEIGHTS: Record<Category, number> = {
-  structure: 0.15,
-  clarity: 0.25,
-  completeness: 0.15,
-  security: 0.20,
-  consistency: 0.10,
-  memory: 0.15,
+  structure: 0.12,
+  clarity: 0.20,
+  completeness: 0.12,
+  security: 0.15,
+  consistency: 0.08,
+  memory: 0.10,
+  runtime: 0.13,
+  skillSafety: 0.10,
 };
 
 export const CATEGORY_LABELS: Record<Category, string> = {
@@ -76,4 +80,6 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   security: "Security",
   consistency: "Consistency",
   memory: "Memory",
+  runtime: "Runtime Config",
+  skillSafety: "Skill Safety",
 };

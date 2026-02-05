@@ -7,6 +7,8 @@ import { completenessRules } from "./completeness";
 import { securityRules } from "./security";
 import { consistencyRules } from "./consistency";
 import { memoryRules } from "./memory";
+import { runtimeRules } from "./runtime";
+import { skillSafetyRules } from "./skillSafety";
 
 export const allRules: Rule[] = [
   ...structureRules,
@@ -15,6 +17,8 @@ export const allRules: Rule[] = [
   ...securityRules,
   ...consistencyRules,
   ...memoryRules,
+  ...runtimeRules,
+  ...skillSafetyRules,
 ];
 
 export {
@@ -24,4 +28,6 @@ export {
   securityRules,
   consistencyRules,
   memoryRules,
+  runtimeRules,
+  skillSafetyRules,
 };
