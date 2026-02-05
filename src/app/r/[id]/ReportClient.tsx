@@ -33,9 +33,20 @@ function Logo({ size = 24 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
       <rect width="32" height="32" rx="8" fill="url(#lg)" />
-      <path d="M9 10.5L16 7L23 10.5V17L16 25L9 17V10.5Z" stroke="white" strokeWidth="1.5" strokeLinejoin="round" fill="none" />
-      <path d="M12 13L16 11L20 13V17L16 21L12 17V13Z" fill="rgba(255,255,255,0.15)" stroke="white" strokeWidth="1" strokeLinejoin="round" />
-      <circle cx="16" cy="15.5" r="1.5" fill="white" />
+      <line x1="10" y1="8" x2="22" y2="12" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+      <line x1="22" y1="12" x2="10" y2="20" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+      <line x1="10" y1="20" x2="22" y2="24" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+      <line x1="10" y1="8" x2="10" y2="20" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+      <line x1="22" y1="12" x2="22" y2="24" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+      <line x1="16" y1="15" x2="10" y2="8" stroke="rgba(94,234,212,0.4)" strokeWidth="1" />
+      <line x1="16" y1="15" x2="22" y2="12" stroke="rgba(94,234,212,0.4)" strokeWidth="1" />
+      <line x1="16" y1="15" x2="10" y2="20" stroke="rgba(94,234,212,0.4)" strokeWidth="1" />
+      <line x1="16" y1="15" x2="22" y2="24" stroke="rgba(94,234,212,0.4)" strokeWidth="1" />
+      <circle cx="10" cy="8" r="2.5" fill="white" />
+      <circle cx="22" cy="12" r="2.5" fill="white" />
+      <circle cx="10" cy="20" r="2.5" fill="white" />
+      <circle cx="22" cy="24" r="2.5" fill="white" />
+      <circle cx="16" cy="15" r="3" fill="#5eead4" />
       <defs>
         <linearGradient id="lg" x1="0" y1="0" x2="32" y2="32">
           <stop offset="0%" stopColor="#7c3aed" />
@@ -75,7 +86,7 @@ function CategoryIcon({ name, className }: { name: string; className?: string })
 
 /* ─── Severity Icon ─── */
 function SeverityIcon({ severity }: { severity: string }) {
-  if (severity === "error") return <AlertCircle className="w-3.5 h-3.5 shrink-0 text-[var(--red)]" />;
+  if (severity === "critical" || severity === "error") return <AlertCircle className="w-3.5 h-3.5 shrink-0 text-[var(--red)]" />;
   if (severity === "warning") return <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-[var(--amber)]" />;
   return <Info className="w-3.5 h-3.5 shrink-0 text-[var(--text-dim)]" />;
 }
@@ -145,7 +156,7 @@ const CATEGORY_META: Record<string, {
     description: "How well your workspace files are organized — modular files, logical heading hierarchy, appropriate file sizes, and clear navigation.",
     whyItMatters: "Agents read your config files sequentially. A monolithic 500-line CLAUDE.md with no headings is like a legal document with no sections — the model will lose context, miss important instructions, and produce inconsistent behavior. Modular, well-structured files let the agent quickly find what it needs.",
     rules: [
-      { id: "structure/has-main-file", severity: "error", description: "Workspace has a CLAUDE.md or AGENTS.md entry point" },
+      { id: "structure/has-main-file", severity: "critical", description: "Workspace has a CLAUDE.md or AGENTS.md entry point" },
       { id: "structure/has-sections", severity: "warning", description: "Main file has 3+ organized sections with headings" },
       { id: "structure/heading-hierarchy", severity: "info", description: "Headings follow logical hierarchy (no level skipping)" },
       { id: "structure/file-size", severity: "warning", description: "Files are not excessively long (< 500 lines for main)" },
@@ -163,9 +174,9 @@ const CATEGORY_META: Record<string, {
       { id: "clarity/no-vague-instructions", severity: "warning", description: "No vague qualifiers (\"be nice\", \"use common sense\", \"etc.\")" },
       { id: "clarity/actionable-instructions", severity: "info", description: "Active voice over passive (\"Do X\" not \"X should be done\")" },
       { id: "clarity/has-examples", severity: "info", description: "Includes examples or code blocks for expected behavior" },
-      { id: "clarity/no-contradictions", severity: "error", description: "No \"always X\" vs \"never X\" contradictions" },
+      { id: "clarity/no-contradictions", severity: "critical", description: "No \"always X\" vs \"never X\" contradictions" },
       { id: "clarity/instruction-density", severity: "info", description: "Not too many imperative rules (< 30) to avoid dilution" },
-      { id: "clarity/naked-conditional", severity: "error", description: "Conditionals use specific triggers, not \"if appropriate\"" },
+      { id: "clarity/naked-conditional", severity: "critical", description: "Conditionals use specific triggers, not \"if appropriate\"" },
       { id: "clarity/compound-instruction", severity: "warning", description: "One action per bullet point, not 3+ verbs in one line" },
       { id: "clarity/escape-hatch-missing", severity: "warning", description: "Absolute rules have exception/escalation paths" },
       { id: "clarity/ambiguous-pronoun", severity: "warning", description: "Instructions don't start with ambiguous \"it\" / \"this\"" },
@@ -196,7 +207,7 @@ const CATEGORY_META: Record<string, {
     description: "Whether your workspace keeps secrets safe, defends against prompt injection, defines permission boundaries, and avoids PII exposure.",
     whyItMatters: "Agent workspaces often contain real API keys, tokens, and personal data. A single leaked secret in a shared CLAUDE.md can compromise your entire infrastructure. Prompt injection defense is equally critical — without it, a malicious user in a group chat can override your agent's instructions. Security isn't optional; it's existential.",
     rules: [
-      { id: "security/no-secrets", severity: "error", description: "No API keys, tokens, or passwords in agent files" },
+      { id: "security/no-secrets", severity: "critical", description: "No API keys, tokens, or passwords in agent files" },
       { id: "security/has-injection-defense", severity: "warning", description: "Prompt injection defense instructions exist" },
       { id: "security/has-permission-boundaries", severity: "warning", description: "Permission boundaries (who can authorize what)" },
       { id: "security/no-pii-exposure", severity: "warning", description: "No PII (email, phone) in shared agent files" },
@@ -208,17 +219,17 @@ const CATEGORY_META: Record<string, {
     description: "Whether your files agree with each other — no conflicting permissions, matching tone, consistent naming, valid cross-references, and aligned timezones.",
     whyItMatters: "When SOUL.md says \"be casual\" but SECURITY.md uses formal legal language, the agent gets confused about its voice. When one file says \"auto-send emails\" and another says \"never send without approval,\" the agent picks randomly. Consistency ensures your agent speaks with one voice and follows one set of rules.",
     rules: [
-      { id: "consistency/referenced-files-exist", severity: "error", description: "All referenced files actually exist in workspace" },
+      { id: "consistency/referenced-files-exist", severity: "critical", description: "All referenced files actually exist in workspace" },
       { id: "consistency/naming-convention", severity: "info", description: "Consistent file naming (UPPERCASE.md or lowercase.md)" },
       { id: "consistency/no-duplicate-instructions", severity: "warning", description: "No duplicate instructions across files" },
       { id: "consistency/identity-alignment", severity: "warning", description: "Agent identity is consistent across files" },
-      { id: "consistency/permission-conflict", severity: "error", description: "No conflicting permissions across files" },
+      { id: "consistency/permission-conflict", severity: "critical", description: "No conflicting permissions across files" },
       { id: "consistency/tone-voice-alignment", severity: "warning", description: "Instruction tone matches persona in SOUL.md" },
       { id: "consistency/language-mixing", severity: "info", description: "No excessive language mixing within sections" },
       { id: "consistency/circular-dependency", severity: "warning", description: "No circular file references" },
       { id: "consistency/timezone-locale-drift", severity: "warning", description: "Consistent timezone references across files" },
       { id: "consistency/priority-conflict", severity: "warning", description: "Same topic doesn't have conflicting priorities" },
-      { id: "consistency/outdated-cross-references", severity: "error", description: "Section references point to existing sections" },
+      { id: "consistency/outdated-cross-references", severity: "critical", description: "Section references point to existing sections" },
     ],
   },
 };
@@ -295,7 +306,7 @@ const RULE_EDUCATION: Record<string, {
 const SCORING_METHODOLOGY = {
   base: "Each category starts at 100 points.",
   deductions: [
-    { severity: "Error", points: -15, color: "var(--red)", description: "Critical issues that break agent behavior or expose secrets" },
+    { severity: "Critical", points: -15, color: "var(--red)", description: "Issues that break agent behavior or expose secrets" },
     { severity: "Warning", points: -8, color: "var(--amber)", description: "Significant issues that degrade agent quality" },
     { severity: "Info", points: -3, color: "var(--text-dim)", description: "Minor suggestions for improvement" },
   ],
@@ -399,7 +410,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
 
   const percentile = data.totalScore >= 95 ? 3 : data.totalScore >= 90 ? 8 : data.totalScore >= 85 ? 12 : data.totalScore >= 75 ? 25 : 50;
 
-  const errors = data.diagnostics.filter((d) => d.severity === "error");
+  const errors = data.diagnostics.filter((d) => d.severity === "critical" || d.severity === "error");
   const warnings = data.diagnostics.filter((d) => d.severity === "warning");
   const infos = data.diagnostics.filter((d) => d.severity === "info");
 
@@ -481,7 +492,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
               <div className="flex flex-wrap gap-2.5">
                 {errors.length > 0 && (
                   <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--red)]/10 text-[var(--red)] text-[12px] mono">
-                    <AlertCircle className="w-3 h-3" /> {errors.length} error{errors.length > 1 ? "s" : ""}
+                    <AlertCircle className="w-3 h-3" /> {errors.length} critical{errors.length > 1 ? "s" : ""}
                   </div>
                 )}
                 {warnings.length > 0 && (
@@ -634,7 +645,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
                           >
                             {isFlagged ? (
                               <span className="mt-0.5">
-                                {rule.severity === "error" ? (
+                                {rule.severity === "critical" || rule.severity === "error" ? (
                                   <AlertCircle className="w-3.5 h-3.5 text-[var(--red)]" />
                                 ) : rule.severity === "warning" ? (
                                   <AlertTriangle className="w-3.5 h-3.5 text-[var(--amber)]" />
@@ -768,7 +779,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
                         {d.rule}
                       </span>
                       <span className={`text-[10px] mono px-1.5 py-0.5 rounded ${
-                        d.severity === "error" ? "bg-[var(--red)]/10 text-[var(--red)]" :
+                        d.severity === "critical" || d.severity === "error" ? "bg-[var(--red)]/10 text-[var(--red)]" :
                         d.severity === "warning" ? "bg-[var(--amber)]/10 text-[var(--amber)]" :
                         "bg-white/5 text-[var(--text-dim)]"
                       }`}>
@@ -962,7 +973,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
                 <p className="text-[14px] font-semibold">Focus on these high-impact fixes:</p>
                 {data.diagnostics
                   .sort((a, b) => {
-                    const order = { error: 0, warning: 1, info: 2 };
+                    const order = { critical: 0, error: 0, warning: 1, info: 2 };
                     return (order[a.severity as keyof typeof order] || 2) - (order[b.severity as keyof typeof order] || 2);
                   })
                   .slice(0, 5)
@@ -978,9 +989,9 @@ export default function ReportPage({ data }: { data: ReportData }) {
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-[14px] font-semibold">Start with the errors:</p>
+                <p className="text-[14px] font-semibold">Start with the criticals:</p>
                 <p className="text-[13px] text-[var(--text-secondary)]">
-                  Fix all <span className="text-[var(--red)]">error</span>-level issues first — these have the biggest impact on your score and agent behavior.
+                  Fix all <span className="text-[var(--red)]">critical</span>-level issues first — these have the biggest impact on your score and agent behavior.
                   Then tackle <span className="text-[var(--amber)]">warnings</span>. Info items are polish.
                 </p>
               </div>

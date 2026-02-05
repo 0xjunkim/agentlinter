@@ -36,7 +36,7 @@ export function formatTerminal(result: LintResult): string {
   lines.push("");
 
   // Diagnostics
-  const errors = result.diagnostics.filter((d) => d.severity === "error");
+  const errors = result.diagnostics.filter((d) => d.severity === "critical");
   const warnings = result.diagnostics.filter((d) => d.severity === "warning");
   const infos = result.diagnostics.filter((d) => d.severity === "info");
 
@@ -56,7 +56,7 @@ export function formatTerminal(result: LintResult): string {
   // List diagnostics grouped by severity
   for (const diag of [...errors, ...warnings, ...infos]) {
     const icon =
-      diag.severity === "error"
+      diag.severity === "critical"
         ? "❌ ERROR"
         : diag.severity === "warning"
           ? "⚠️  WARN"

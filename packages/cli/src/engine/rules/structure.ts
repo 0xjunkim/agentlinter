@@ -6,7 +6,7 @@ export const structureRules: Rule[] = [
   {
     id: "structure/has-main-file",
     category: "structure",
-    severity: "error",
+    severity: "critical",
     description: "Workspace must have a CLAUDE.md or AGENTS.md file",
     check(files) {
       const hasMain = files.some(
@@ -18,7 +18,7 @@ export const structureRules: Rule[] = [
       if (!hasMain) {
         return [
           {
-            severity: "error",
+            severity: "critical",
             category: "structure",
             rule: this.id,
             file: "(workspace)",

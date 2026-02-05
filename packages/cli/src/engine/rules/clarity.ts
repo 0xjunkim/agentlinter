@@ -129,7 +129,7 @@ export const clarityRules: Rule[] = [
   {
     id: "clarity/no-contradictions",
     category: "clarity",
-    severity: "error",
+    severity: "critical",
     description: "Instructions within a file should not contradict each other",
     check(files) {
       const diagnostics: Diagnostic[] = [];
@@ -153,7 +153,7 @@ export const clarityRules: Rule[] = [
           for (const n of neverMatches) {
             if (a.text === n.text) {
               diagnostics.push({
-                severity: "error",
+                severity: "critical",
                 category: "clarity",
                 rule: this.id,
                 file: file.name,
@@ -208,7 +208,7 @@ export const clarityRules: Rule[] = [
   {
     id: "clarity/naked-conditional",
     category: "clarity",
-    severity: "error",
+    severity: "critical",
     description: "Conditionals should have specific, measurable triggers",
     check(files) {
       const diagnostics: Diagnostic[] = [];
@@ -228,7 +228,7 @@ export const clarityRules: Rule[] = [
           for (const pattern of VAGUE_CONDITIONALS) {
             if (pattern.test(line)) {
               diagnostics.push({
-                severity: "error",
+                severity: "critical",
                 category: "clarity",
                 rule: this.id,
                 file: file.name,

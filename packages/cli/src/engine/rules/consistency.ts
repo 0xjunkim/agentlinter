@@ -6,7 +6,7 @@ export const consistencyRules: Rule[] = [
   {
     id: "consistency/referenced-files-exist",
     category: "consistency",
-    severity: "error",
+    severity: "critical",
     description: "Files referenced in agent configs should exist",
     check(files) {
       const diagnostics: Diagnostic[] = [];
@@ -26,7 +26,7 @@ export const consistencyRules: Rule[] = [
           if (PATTERN_REFS.has(refName)) continue; // skip generic patterns
           if (!fileNames.has(refName) && !fileNames.has(refName.toLowerCase())) {
             diagnostics.push({
-              severity: "error",
+              severity: "critical",
               category: "consistency",
               rule: this.id,
               file: file.name,
@@ -51,7 +51,7 @@ export const consistencyRules: Rule[] = [
             );
             if (!alreadyFound) {
               diagnostics.push({
-                severity: "error",
+                severity: "critical",
                 category: "consistency",
                 rule: this.id,
                 file: file.name,
@@ -219,7 +219,7 @@ export const consistencyRules: Rule[] = [
   {
     id: "consistency/permission-conflict",
     category: "consistency",
-    severity: "error",
+    severity: "critical",
     description: "Permission levels should not conflict across files",
     check(files) {
       const diagnostics: Diagnostic[] = [];
@@ -267,7 +267,7 @@ export const consistencyRules: Rule[] = [
           const shared = [...wordsA].filter(w => wordsB.has(w));
           if (shared.length >= 2) {
             diagnostics.push({
-              severity: "error",
+              severity: "critical",
               category: "consistency",
               rule: this.id,
               file: sb.file,
@@ -551,7 +551,7 @@ export const consistencyRules: Rule[] = [
   {
     id: "consistency/outdated-cross-references",
     category: "consistency",
-    severity: "error",
+    severity: "critical",
     description: "Section references should point to sections that actually exist",
     check(files) {
       const diagnostics: Diagnostic[] = [];
@@ -577,7 +577,7 @@ export const consistencyRules: Rule[] = [
           }
           if (!found) {
             diagnostics.push({
-              severity: "error",
+              severity: "critical",
               category: "consistency",
               rule: this.id,
               file: file.name,

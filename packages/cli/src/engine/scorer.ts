@@ -73,7 +73,7 @@ function computeCategoryScore(
   // Start at 100, deduct for issues
   let score = 100;
 
-  const errors = diagnostics.filter((d) => d.severity === "error");
+  const errors = diagnostics.filter((d) => d.severity === "critical");
   const warnings = diagnostics.filter((d) => d.severity === "warning");
   const infos = diagnostics.filter((d) => d.severity === "info");
 

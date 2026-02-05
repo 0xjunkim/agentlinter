@@ -26,7 +26,7 @@ export const securityRules: Rule[] = [
   {
     id: "security/no-secrets",
     category: "security",
-    severity: "error",
+    severity: "critical",
     description: "No API keys, tokens, or passwords should be in agent files",
     check(files) {
       const diagnostics: Diagnostic[] = [];
@@ -41,7 +41,7 @@ export const securityRules: Rule[] = [
               // Mask the actual secret in the diagnostic
               const masked = line.replace(pattern, "[REDACTED]");
               diagnostics.push({
-                severity: "error",
+                severity: "critical",
                 category: "security",
                 rule: this.id,
                 file: file.name,
