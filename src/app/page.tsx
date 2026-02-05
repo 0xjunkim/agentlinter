@@ -382,6 +382,9 @@ export default function Home() {
             <AnimatedTerminal />
           </motion.div>
         </div>
+
+        {/* Spacer after hero */}
+        <div className="h-16 sm:h-24" />
       </section>
 
       {/* ── Trust Bar ── */}
