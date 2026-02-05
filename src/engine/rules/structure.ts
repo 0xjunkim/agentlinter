@@ -148,12 +148,17 @@ export const structureRules: Rule[] = [
           f.name.endsWith(".md")
       );
       for (const file of coreFiles) {
-        for (const section of file.sections) {
+        for (let idx = 0; idx < file.sections.length; idx++) {
+          const section = file.sections[idx];
           const bodyLines = section.content
             .split("\n")
             .slice(1)
             .filter((l) => l.trim().length > 0);
-          if (bodyLines.length === 0) {
+          // A section is truly empty only if it has no body AND no subsections follow immediately
+          const nextSection = file.sections[idx + 1];
+          const hasSubsection =
+            nextSection && nextSection.level > section.level;
+          if (bodyLines.length === 0 && !hasSubsection) {
             diagnostics.push({
               severity: "warning",
               category: "structure",
@@ -163,6 +168,68 @@ export const structureRules: Rule[] = [
               message: `Empty section: "${section.heading}". Either add content or remove the heading.`,
             });
           }
+        }
+      }
+      return diagnostics;
+    },
+  },
+
+  {
+    id: "structure/has-file-map",
+    category: "structure",
+    severity: "info",
+    description: "A file map helps agents navigate the workspace",
+    check(files) {
+      const mainFile = files.find(
+        (f) => f.name === "CLAUDE.md" || f.name === "AGENTS.md"
+      );
+      if (!mainFile) return [];
+
+      const hasFileMap =
+        /file.?map|directory|tree|structure/i.test(mainFile.content) &&
+        (mainFile.content.includes("├") || mainFile.content.includes("└") || mainFile.content.includes("```"));
+
+      if (!hasFileMap && files.length > 5) {
+        return [
+          {
+            severity: "info",
+            category: "structure",
+            rule: this.id,
+            file: mainFile.name,
+            message:
+              "No file map found. With 5+ files, a directory tree helps the agent navigate.",
+            fix: "Add a ## File Map section with a tree structure showing all agent files.",
+          },
+        ];
+      }
+      return [];
+    },
+  },
+
+  {
+    id: "structure/has-version-or-update-date",
+    category: "structure",
+    severity: "info",
+    description: "Files should indicate when they were last updated",
+    check(files) {
+      const diagnostics: Diagnostic[] = [];
+      const coreFiles = files.filter(
+        (f) =>
+          !f.name.startsWith("compound/") &&
+          !f.name.startsWith("memory/") &&
+          (f.name === "CLAUDE.md" || f.name === "AGENTS.md" || f.name === "TOOLS.md")
+      );
+      for (const file of coreFiles) {
+        const hasDate = /(?:last )?update|version|modified|date|v\d+\.\d+/i.test(file.content);
+        if (!hasDate) {
+          diagnostics.push({
+            severity: "info",
+            category: "structure",
+            rule: this.id,
+            file: file.name,
+            message: "No version or update date found. Helps track freshness of instructions.",
+            fix: "Add a version comment or 'Last updated: YYYY-MM-DD' at the top or bottom.",
+          });
         }
       }
       return diagnostics;

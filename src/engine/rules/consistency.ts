@@ -12,6 +12,9 @@ export const consistencyRules: Rule[] = [
       const diagnostics: Diagnostic[] = [];
       const fileNames = new Set(files.map((f) => f.name));
 
+      // Generic pattern references to skip (e.g., "Check SKILL.md for each" refers to a pattern, not a specific file)
+      const PATTERN_REFS = new Set(["SKILL.md", "README.md", "CHANGELOG.md", "LICENSE.md"]);
+
       for (const file of files) {
         // Find references to other .md files
         const refs = file.content.matchAll(
@@ -20,6 +23,7 @@ export const consistencyRules: Rule[] = [
 
         for (const match of refs) {
           const refName = match[1];
+          if (PATTERN_REFS.has(refName)) continue; // skip generic patterns
           if (!fileNames.has(refName) && !fileNames.has(refName.toLowerCase())) {
             diagnostics.push({
               severity: "error",
@@ -38,8 +42,8 @@ export const consistencyRules: Rule[] = [
         );
         for (const match of backtickRefs) {
           const refName = match[1];
+          if (PATTERN_REFS.has(refName)) continue; // skip generic patterns
           if (!fileNames.has(refName) && !fileNames.has(refName.toLowerCase())) {
-            // Avoid duplicate if already caught above
             const alreadyFound = diagnostics.some(
               (d) =>
                 d.file === file.name &&

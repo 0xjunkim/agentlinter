@@ -234,4 +234,60 @@ export const completenessRules: Rule[] = [
       return [];
     },
   },
+
+  {
+    id: "completeness/has-workflow",
+    category: "completeness",
+    severity: "info",
+    description: "Defining workflows helps the agent handle multi-step tasks",
+    check(files) {
+      const allContent = files.map((f) => f.content).join("\n");
+      const hasWorkflow =
+        /workflow|deploy|git.*push|step.*by.*step|procedure|process|pipeline/i.test(
+          allContent
+        );
+
+      if (!hasWorkflow) {
+        return [
+          {
+            severity: "info",
+            category: "completeness",
+            rule: this.id,
+            file: "(workspace)",
+            message:
+              "No workflow documentation found. Define common multi-step processes (deploy, review, etc.).",
+          },
+        ];
+      }
+      return [];
+    },
+  },
+
+  {
+    id: "completeness/has-priorities",
+    category: "completeness",
+    severity: "info",
+    description: "Prioritization helps agents decide what matters most",
+    check(files) {
+      const allContent = files.map((f) => f.content).join("\n");
+      const hasPriority =
+        /priorit|critical|important|must|P0|P1|urgent|first.*then/i.test(
+          allContent
+        );
+
+      if (!hasPriority) {
+        return [
+          {
+            severity: "info",
+            category: "completeness",
+            rule: this.id,
+            file: "(workspace)",
+            message:
+              "No priority guidance found. Help the agent know what's most important when instructions conflict.",
+          },
+        ];
+      }
+      return [];
+    },
+  },
 ];

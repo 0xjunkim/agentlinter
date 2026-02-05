@@ -317,8 +317,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-[var(--al-bg)]/80 border-b border-[var(--al-border)]">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-[var(--al-bg)]/80 border-b border-[var(--al-border)]" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <Search className="w-5 h-5 text-indigo-400" />
             <span className="font-bold text-lg">AgentLinter</span>
@@ -343,7 +343,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-36 sm:pt-40 pb-16 sm:pb-20 px-5 sm:px-6">
+      <section className="pt-44 sm:pt-48 pb-16 sm:pb-20 px-5 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-16"
