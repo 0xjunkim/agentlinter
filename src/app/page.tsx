@@ -795,11 +795,11 @@ export default function Home() {
                 { icon: RefreshCw, label: "Rules ↻" },
               ].map((s, i) => (
                 <div key={s.label} className="flex items-center gap-2 sm:gap-3">
-                  <div className="flex flex-col items-center gap-1.5">
+                  <div className="flex flex-col items-center gap-1.5 w-12 sm:w-14">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center">
                       <s.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-dim)]" />
                     </div>
-                    <span className="text-[11px] sm:text-[12px] text-[var(--text-dim)] mono">{s.label}</span>
+                    <span className="text-[10px] sm:text-[11px] text-[var(--text-dim)] mono truncate">{s.label}</span>
                   </div>
                   {i < 4 && <ChevronRight className="w-3 h-3 text-[var(--text-dim)] mt-[-16px]" />}
                 </div>
@@ -815,10 +815,10 @@ export default function Home() {
               { level: "L4 · Semi", title: "Template Updates", desc: "Starter templates evolve based on what files users add." },
             ].map((item, i) => (
               <FadeIn key={item.title} delay={0.05 * i}>
-                <div className="p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)]">
-                  <span className="text-[11px] mono text-[var(--accent)] bg-[var(--accent-dim)] px-2 py-0.5 rounded-lg">{item.level}</span>
+                <div className="p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] h-full flex flex-col">
+                  <span className="text-[11px] mono text-[var(--accent)] bg-[var(--accent-dim)] px-2 py-0.5 rounded-lg self-start">{item.level}</span>
                   <h3 className="font-semibold text-[14px] mt-3 mb-2">{item.title}</h3>
-                  <p className="text-[13px] text-[var(--text-secondary)] leading-[1.6]">{item.desc}</p>
+                  <p className="text-[13px] text-[var(--text-secondary)] leading-[1.6] flex-1">{item.desc}</p>
                 </div>
               </FadeIn>
             ))}
@@ -900,7 +900,7 @@ export default function Home() {
 
           {/* TL;DR box */}
           <FadeIn delay={0.15}>
-            <div className="mt-10 p-6 sm:p-8 rounded-2xl bg-[var(--teal-dim)] border border-[var(--teal)]/20 max-w-[640px]">
+            <div className="mt-10 p-6 sm:p-8 rounded-2xl bg-[var(--teal-dim)] border border-[var(--teal)]/20">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-[var(--teal)]/15 flex items-center justify-center shrink-0">
                   <Shield className="w-5 h-5 text-[var(--teal)]" />
