@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   Search,
   Terminal,
@@ -61,6 +61,43 @@ function Logo({ size = 24 }: { size?: number }) {
         </linearGradient>
       </defs>
     </svg>
+  );
+}
+
+/* ════════════════════════════════════════
+   Rotating Agent Name
+   ════════════════════════════════════════ */
+const AGENT_NAMES = ["agent", "Claude Code", "Cursor", "Clawdbot", "Windsurf"];
+
+function RotatingAgentName() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % AGENT_NAMES.length);
+    }, 2400);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <span className="inline-block relative">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={AGENT_NAMES[index]}
+          className="inline-block"
+          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={{ opacity: 0, y: -20, filter: "blur(4px)" }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
+        >
+          {AGENT_NAMES[index]}
+        </motion.span>
+      </AnimatePresence>
+      {/* Invisible sizer to prevent layout shift — use widest name */}
+      <span className="invisible block h-0 overflow-hidden" aria-hidden="true">
+        Claude Code
+      </span>
+    </span>
   );
 }
 
@@ -346,7 +383,7 @@ export default function Home() {
             </div>
 
             <h1 className="display text-[36px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-tight mb-5">
-              Is your agent
+              Is your <RotatingAgentName />
               <br />
               <span className="text-[var(--accent)] glow-text">sharp & secure?</span>
             </h1>
