@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 import ReportPage, { ReportData } from "./ReportClient";
 
-// Demo fallback data (used when id === "demo" or DB unavailable)
+// Demo fallback data
 const DEMO_DATA: ReportData = {
   id: "demo",
   workspace: "demo-workspace",
@@ -39,38 +40,50 @@ const DEMO_DATA: ReportData = {
   ],
 };
 
+// Direct Supabase query (no self-fetch, works in SSR)
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
+
 async function fetchReport(id: string): Promise<ReportData | null> {
-  // Demo shortcut
   if (id === "demo") return DEMO_DATA;
 
-  // Fetch from API (server-side)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+  const supabase = getSupabase();
+  if (!supabase) return null;
 
   try {
-    const res = await fetch(`${baseUrl}/api/reports/${id}`, {
-      cache: "no-store",
-    });
+    const { data, error } = await supabase
+      .from("reports")
+      .select("*")
+      .eq("id", id)
+      .single();
 
-    if (!res.ok) return null;
+    if (error || !data) return null;
 
-    const raw = await res.json();
+    // Fetch history for this machine
+    const { data: history } = await supabase
+      .from("reports")
+      .select("id, score, created_at")
+      .eq("machine_id", data.machine_id)
+      .order("created_at", { ascending: false })
+      .limit(10);
 
-    // Transform DB shape → component shape
     return {
-      id: raw.id,
-      workspace: raw.workspace || "workspace",
-      totalScore: raw.score,
-      filesScanned: raw.files_scanned || raw.file_names?.length || 0,
-      timestamp: raw.created_at || new Date().toISOString(),
-      categories: (raw.categories || []).map((c: any) => ({
+      id: data.id,
+      workspace: "workspace",
+      totalScore: data.score,
+      filesScanned: data.files_scanned || data.file_names?.length || 0,
+      timestamp: data.created_at || new Date().toISOString(),
+      categories: (data.categories || []).map((c: any) => ({
         name: c.name,
         score: c.score,
       })),
-      diagnostics: raw.diagnostics || [],
-      files: raw.file_names || [],
-      history: raw.history || [],
+      diagnostics: data.diagnostics || [],
+      files: data.file_names || [],
+      history: history || [],
     };
   } catch (e) {
     console.error("Failed to fetch report:", e);
