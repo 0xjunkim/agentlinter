@@ -399,8 +399,8 @@ export default function Home() {
       <section id="why" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[12px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Why this matters</p>
-            <h2 className="display text-[28px] sm:text-[40px] lg:text-[48px] leading-[1.1] tracking-tight mb-6 max-w-[700px]">
+            <p className="text-[13px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Why this matters</p>
+            <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-6 max-w-[700px]">
               Your agent config is code.
               <br />
               <span className="text-[var(--text-secondary)]">Treat it like code.</span>
@@ -481,9 +481,9 @@ export default function Home() {
       <section id="how" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[12px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How it works</p>
-            <h2 className="display text-[28px] sm:text-[40px] lg:text-[48px] leading-[1.1] tracking-tight mb-5">
-              One command. Full diagnosis.
+            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How it works</p>
+            <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-5">
+              One command. <span className="text-[var(--teal)]">Full diagnosis.</span>
             </h2>
             <p className="text-[15px] text-[var(--text-secondary)] leading-[1.7] mb-12 max-w-[520px]">
               No setup. No config files. Point it at your workspace and get an instant, actionable report.
@@ -537,9 +537,9 @@ export default function Home() {
       <section className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[12px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Scoring Engine</p>
-            <h2 className="display text-[28px] sm:text-[40px] lg:text-[48px] leading-[1.1] tracking-tight mb-5">
-              Five dimensions. Real rules.
+            <p className="text-[13px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Scoring Engine</p>
+            <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-5">
+              Five dimensions. <span className="text-[var(--accent)]">Real rules.</span>
             </h2>
             <p className="text-[15px] text-[var(--text-secondary)] leading-[1.7] mb-12 max-w-[560px]">
               Not a vibe check. Every score is backed by specific, documented rules
@@ -626,8 +626,8 @@ export default function Home() {
       <section id="compare" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[12px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How we&apos;re different</p>
-            <h2 className="display text-[28px] sm:text-[40px] lg:text-[48px] leading-[1.1] tracking-tight mb-4 max-w-[700px]">
+            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">How we&apos;re different</p>
+            <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-4 max-w-[700px]">
               Anthropic built the foundation.
               <br />
               <span className="text-[var(--accent)]">We built the linter.</span>
@@ -716,11 +716,11 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <FadeIn>
               <div>
-                <p className="text-[12px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Reports</p>
-                <h2 className="display text-[28px] sm:text-[40px] leading-[1.1] tracking-tight mb-5">
+                <p className="text-[13px] mono text-[var(--accent)] mb-4 tracking-wider uppercase">Reports</p>
+                <h2 className="display text-[32px] sm:text-[48px] leading-[1.1] tracking-tight mb-5">
                   Your score card.
                   <br />
-                  <span className="text-[var(--text-secondary)]">Share it.</span>
+                  <span className="text-[var(--teal)]">Share it.</span>
                 </h2>
                 <p className="text-[15px] text-[var(--text-secondary)] leading-[1.7] mb-8">
                   Every run generates a web report with tier grade, category breakdown,
@@ -760,9 +760,9 @@ export default function Home() {
       <section className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[12px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Intelligence</p>
-            <h2 className="display text-[28px] sm:text-[40px] leading-[1.1] tracking-tight mb-5">
-              Rules that learn.
+            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Intelligence</p>
+            <h2 className="display text-[32px] sm:text-[48px] leading-[1.1] tracking-tight mb-5">
+              Rules that <span className="text-[var(--accent)]">learn.</span>
             </h2>
             <p className="text-[15px] text-[var(--text-secondary)] leading-[1.7] mb-12 max-w-[540px]">
               Every lint teaches us something. Common failures become new rules.
@@ -819,8 +819,8 @@ export default function Home() {
       <section id="privacy" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[12px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Privacy &amp; Security</p>
-            <h2 className="display text-[28px] sm:text-[40px] lg:text-[48px] leading-[1.1] tracking-tight mb-6 max-w-[700px]">
+            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Privacy &amp; Security</p>
+            <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-6 max-w-[700px]">
               Your files never leave
               <br />
               <span className="text-[var(--teal)]">your machine.</span>
