@@ -1,70 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Search,
+  Terminal,
+  ArrowRight,
+  Github,
+  Star,
+  BarChart3,
   Zap,
   Shield,
-  Share2,
-  Terminal,
-  ChevronRight,
-  ArrowRight,
-  Check,
-  X,
-  AlertTriangle,
-  Github,
-  Twitter,
-  Star,
-  TrendingUp,
-  BarChart3,
-  Lock,
   FileText,
-  Sparkles,
+  Lock,
+  Share2,
   Trophy,
-  Users,
   RefreshCw,
+  ChevronRight,
+  Users,
+  TrendingUp,
+  Check,
+  Sparkles,
 } from "lucide-react";
 
-/* ─── Score Bar Component ─── */
-function ScoreBar({
-  label,
-  score,
-  delay = 0,
-}: {
-  label: string;
-  score: number;
-  delay?: number;
-}) {
-  const color =
-    score >= 90
-      ? "bg-emerald-500"
-      : score >= 70
-        ? "bg-indigo-500"
-        : score >= 50
-          ? "bg-amber-500"
-          : "bg-red-500";
-
-  return (
-    <div className="flex items-center gap-3">
-      <span className="text-sm text-slate-400 w-28 text-right font-mono">
-        {label}
-      </span>
-      <div className="flex-1 h-2.5 bg-slate-800 rounded-full overflow-hidden">
-        <motion.div
-          className={`h-full rounded-full ${color}`}
-          initial={{ width: 0 }}
-          whileInView={{ width: `${score}%` }}
-          transition={{ duration: 1, delay, ease: "easeOut" }}
-          viewport={{ once: true }}
-        />
-      </div>
-      <span className="text-sm font-mono text-slate-300 w-8">{score}</span>
-    </div>
-  );
-}
-
-/* ─── Animated Terminal ─── */
+/* ────────────────────────────────────────
+   Animated Terminal
+   ──────────────────────────────────────── */
 function AnimatedTerminal() {
   const [lines, setLines] = useState<string[]>([]);
   const [currentLine, setCurrentLine] = useState(0);
@@ -73,7 +34,7 @@ function AnimatedTerminal() {
     { text: "$ npx agentlinter score .", type: "command" },
     { text: "", type: "blank" },
     { text: "🔍 AgentLinter v1.0.0", type: "header" },
-    { text: "📁 Scanning workspace: ./.claude/", type: "info" },
+    { text: "📁 Scanning: ./.claude/", type: "info" },
     { text: "", type: "blank" },
     { text: "  CLAUDE.md ........... 72/100", type: "score" },
     { text: "  ├─ Structure     ████████░░ 80", type: "detail" },
@@ -84,27 +45,11 @@ function AnimatedTerminal() {
     { text: "", type: "blank" },
     { text: "⚠️  5 warnings, 2 errors", type: "warning" },
     { text: "", type: "blank" },
-    {
-      text: "  ERROR  CLAUDE.md:14 — Secret detected: API key (sk-...)",
-      type: "error",
-    },
-    {
-      text: "  ERROR  TOOLS.md missing — Referenced but not found",
-      type: "error",
-    },
-    {
-      text: "  WARN   No persona defined — Add SOUL.md",
-      type: "warn",
-    },
-    {
-      text: "  WARN   Vague instruction: \"be helpful\" → Be specific",
-      type: "warn",
-    },
+    { text: "  ERROR  Secret detected: API key (sk-...)", type: "error" },
+    { text: "  ERROR  TOOLS.md missing", type: "error" },
+    { text: "  WARN   No persona — Add SOUL.md", type: "warn" },
     { text: "", type: "blank" },
-    {
-      text: "💡 Run `agentlinter fix --auto` to fix 4 issues",
-      type: "success",
-    },
+    { text: "💡 Run `agentlinter fix` to auto-fix 4 issues", type: "success" },
   ];
 
   useEffect(() => {
@@ -114,227 +59,146 @@ function AnimatedTerminal() {
         setLines((prev) => [...prev, terminalLines[currentLine].text]);
         setCurrentLine((prev) => prev + 1);
       },
-      currentLine === 0 ? 800 : terminalLines[currentLine].type === "blank" ? 100 : 150
+      currentLine === 0 ? 600 : terminalLines[currentLine].type === "blank" ? 80 : 120
     );
     return () => clearTimeout(timer);
   }, [currentLine]);
 
-  const getLineColor = (index: number) => {
-    const type = terminalLines[index]?.type;
-    switch (type) {
-      case "command":
-        return "text-emerald-400";
-      case "header":
-        return "text-indigo-400 font-bold";
-      case "info":
-        return "text-slate-400";
-      case "score":
-        return "text-white font-bold";
-      case "detail":
-        return "text-slate-300";
-      case "warning":
-        return "text-amber-400";
-      case "error":
-        return "text-red-400";
-      case "warn":
-        return "text-amber-300";
-      case "success":
-        return "text-emerald-400";
-      default:
-        return "text-slate-400";
-    }
+  const getColor = (i: number) => {
+    const t = terminalLines[i]?.type;
+    return t === "command"
+      ? "text-[var(--accent)]"
+      : t === "header"
+        ? "text-white font-medium"
+        : t === "score"
+          ? "text-white font-medium"
+          : t === "error"
+            ? "text-[var(--red)]"
+            : t === "warn"
+              ? "text-[var(--amber)]"
+              : t === "warning"
+                ? "text-[var(--amber)]"
+                : t === "success"
+                  ? "text-[var(--accent)]"
+                  : "text-[var(--text-secondary)]";
   };
 
   return (
-    <div className="bg-[#0d1117] rounded-xl border border-slate-700/50 overflow-hidden shadow-2xl">
-      <div className="flex items-center gap-2 px-4 py-3 bg-[#161b22] border-b border-slate-700/50">
-        <div className="w-3 h-3 rounded-full bg-red-500/80" />
-        <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-        <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-        <span className="ml-2 text-xs text-slate-500 font-mono">
+    <div className="rounded-xl border border-[var(--border)] overflow-hidden bg-[#0a0a12]">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)]">
+        <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+        <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+        <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+        <span className="ml-2 text-[11px] text-[var(--text-dim)] mono">
           terminal
         </span>
       </div>
-      <div className="p-4 sm:p-5 font-mono text-[11px] sm:text-sm leading-5 sm:leading-6 min-h-[380px] sm:min-h-[420px] overflow-x-auto">
+      <div className="p-5 sm:p-6 mono text-[12px] sm:text-[13px] leading-[1.8] min-h-[340px] sm:min-h-[380px] overflow-x-auto">
         {lines.map((line, i) => (
-          <div key={i} className={getLineColor(i)}>
+          <div key={i} className={getColor(i)}>
             {line || "\u00A0"}
           </div>
         ))}
         {currentLine < terminalLines.length && (
-          <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse" />
+          <span className="inline-block w-1.5 h-3.5 bg-[var(--accent)] animate-pulse" />
         )}
       </div>
     </div>
   );
 }
 
-/* ─── Feature Card ─── */
-function FeatureCard({
-  icon: Icon,
-  title,
-  description,
-  tag,
-}: {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  tag?: string;
-}) {
-  return (
-    <motion.div
-      className="relative p-6 rounded-xl bg-[var(--al-bg-card)] border border-[var(--al-border)] hover:border-indigo-500/30 transition-all duration-300 group"
-      whileHover={{ y: -2 }}
-    >
-      {tag && (
-        <span className="absolute top-4 right-4 text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-          {tag}
-        </span>
-      )}
-      <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center mb-4 group-hover:bg-indigo-500/20 transition-colors">
-        <Icon className="w-5 h-5 text-indigo-400" />
-      </div>
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-sm text-slate-400 leading-relaxed">{description}</p>
-    </motion.div>
-  );
-}
-
-/* ─── Score Card Preview ─── */
+/* ────────────────────────────────────────
+   Score Card Preview
+   ──────────────────────────────────────── */
 function ScoreCardPreview() {
+  const cats = [
+    { label: "Structure", score: 80 },
+    { label: "Clarity", score: 90 },
+    { label: "Completeness", score: 85 },
+    { label: "Security", score: 95 },
+    { label: "Consistency", score: 75 },
+  ];
+
   return (
     <motion.div
-      className="relative max-w-sm mx-auto"
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
+      className="w-full max-w-[340px] mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-700 p-6 rounded-2xl shadow-2xl">
-        <div className="flex items-center gap-2 mb-4">
-          <Search className="w-5 h-5 text-white/80" />
-          <span className="text-white/80 font-semibold text-sm">
-            AgentLinter Score
-          </span>
+      <div className="rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] border border-[var(--border)]">
+        <div className="flex items-center gap-2 mb-6 text-[var(--text-secondary)] text-sm">
+          <Search className="w-4 h-4" />
+          <span>AgentLinter Score</span>
         </div>
 
-        <div className="text-center mb-5">
-          <div className="text-6xl font-extrabold text-white mb-1">87</div>
-          <div className="text-white/60 text-sm">/100</div>
+        <div className="text-center mb-6">
+          <span className="text-6xl font-bold text-white">87</span>
+          <span className="text-[var(--text-dim)] text-lg ml-1">/100</span>
         </div>
 
-        <div className="space-y-2.5 mb-5">
-          {[
-            { label: "Structure", score: 80 },
-            { label: "Clarity", score: 90 },
-            { label: "Completeness", score: 85 },
-            { label: "Security", score: 95 },
-            { label: "Consistency", score: 75 },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-2">
-              <span className="text-xs text-white/60 w-24 text-right">
-                {item.label}
+        <div className="space-y-3 mb-6">
+          {cats.map((c) => (
+            <div key={c.label} className="flex items-center gap-3">
+              <span className="text-[12px] text-[var(--text-secondary)] w-[90px] text-right mono">
+                {c.label}
               </span>
-              <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-white/80 rounded-full"
-                  style={{ width: `${item.score}%` }}
+                  className="h-full bg-[var(--accent)] rounded-full"
+                  style={{ width: `${c.score}%`, opacity: 0.7 + (c.score / 400) }}
                 />
               </div>
-              <span className="text-xs text-white/80 w-6 font-mono">
-                {item.score}
+              <span className="text-[12px] text-[var(--text-secondary)] w-6 mono">
+                {c.score}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="text-center">
-          <div className="inline-flex items-center gap-1.5 text-sm text-amber-300">
-            <Trophy className="w-4 h-4" />
-            <span>Top 12% of all agents</span>
-          </div>
-        </div>
-
-        <div className="mt-4 pt-3 border-t border-white/10 text-center">
-          <span className="text-white/40 text-xs">agentlinter.com</span>
+        <div className="text-center text-sm text-[var(--amber)]">
+          <Trophy className="w-3.5 h-3.5 inline mr-1.5" />
+          Top 12% of all agents
         </div>
       </div>
 
-      {/* Share button overlay */}
-      <motion.div
-        className="absolute -bottom-4 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, -4, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <button className="flex items-center gap-2 px-5 py-2.5 bg-black rounded-full border border-slate-600 text-sm font-medium hover:border-indigo-500 transition-colors">
-          <Twitter className="w-4 h-4" />
+      <div className="flex justify-center mt-4">
+        <button className="flex items-center gap-2 px-5 py-2 rounded-full border border-[var(--border)] text-sm text-[var(--text-secondary)] hover:text-white hover:border-[var(--border-hover)] transition-colors">
+          <Share2 className="w-3.5 h-3.5" />
           Share on X
         </button>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
 
-/* ─── Flywheel Diagram ─── */
-function FlywheelDiagram() {
-  const steps = [
-    { icon: Search, label: "Lint & Score", color: "text-indigo-400" },
-    { icon: Share2, label: "Share Score", color: "text-cyan-400" },
-    { icon: Users, label: "More Users", color: "text-emerald-400" },
-    { icon: TrendingUp, label: "Better Data", color: "text-amber-400" },
-    { icon: RefreshCw, label: "Smarter Rules", color: "text-purple-400" },
-  ];
-
-  return (
-    <div className="relative flex items-center justify-center gap-4 flex-wrap">
-      {steps.map((step, i) => (
-        <div key={step.label} className="flex items-center gap-3">
-          <motion.div
-            className="flex flex-col items-center gap-2"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.15 }}
-            viewport={{ once: true }}
-          >
-            <div className="w-14 h-14 rounded-xl bg-[var(--al-bg-card)] border border-[var(--al-border)] flex items-center justify-center">
-              <step.icon className={`w-6 h-6 ${step.color}`} />
-            </div>
-            <span className="text-xs text-slate-400 font-medium">
-              {step.label}
-            </span>
-          </motion.div>
-          {i < steps.length - 1 && (
-            <ChevronRight className="w-4 h-4 text-slate-600 mt-[-20px]" />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ─── Main Page ─── */
+/* ────────────────────────────────────────
+   Main Page
+   ──────────────────────────────────────── */
 export default function Home() {
   return (
     <div className="min-h-screen">
-      {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-[var(--al-bg)]/80 border-b border-[var(--al-border)]" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Search className="w-5 h-5 text-indigo-400" />
-            <span className="font-bold text-lg">AgentLinter</span>
-          </div>
-          <div className="flex items-center gap-4">
+      {/* ── Nav ── */}
+      <nav
+        className="fixed top-0 w-full z-50 backdrop-blur-xl bg-[var(--bg)]/70 border-b border-[var(--border)]"
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
+      >
+        <div className="max-w-[920px] mx-auto px-6 sm:px-8 h-14 flex items-center justify-between">
+          <span className="font-semibold text-[15px] tracking-tight">
+            AgentLinter
+          </span>
+          <div className="flex items-center gap-5">
             <a
               href="https://github.com/seojoonkim/agentlinter"
               target="_blank"
-              className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-1.5"
+              className="text-[13px] text-[var(--text-secondary)] hover:text-white transition-colors flex items-center gap-1.5"
             >
-              <Github className="w-4 h-4" />
-              GitHub
+              <Github className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">GitHub</span>
             </a>
             <a
               href="#get-started"
-              className="text-sm px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors font-medium"
+              className="text-[13px] px-3.5 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] transition-colors"
             >
               Get Started
             </a>
@@ -342,308 +206,305 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="pt-44 sm:pt-48 pb-16 sm:pb-20 px-5 sm:px-6">
-        <div className="max-w-6xl mx-auto">
+      {/* ── Hero ── */}
+      <section className="pt-[140px] sm:pt-[160px] pb-20 sm:pb-28 px-6 sm:px-8">
+        <div className="max-w-[920px] mx-auto">
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
+            className="max-w-[600px]"
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm mb-6">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] text-[var(--accent)] text-[12px] mono mb-8">
+              <Sparkles className="w-3 h-3" />
               ESLint for AI Agents
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6">
+
+            <h1 className="text-[32px] sm:text-[44px] lg:text-[56px] font-bold leading-[1.1] tracking-tight mb-6">
               Sharpen your
               <br />
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                agent&apos;s edge.
-              </span>
+              <span className="text-[var(--accent)]">agent&apos;s edge.</span>
             </h1>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed">
+
+            <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] leading-[1.7] mb-10 max-w-[480px]">
               Score, diagnose, and auto-fix your CLAUDE.md and agent workspace
               files. One command to make your AI agent dramatically better.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+
+            <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="#get-started"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 transition-all font-semibold text-lg shadow-lg shadow-indigo-500/20"
+                className="inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl bg-[var(--accent)] text-black font-semibold text-[14px] hover:brightness-110 transition-all"
               >
-                <Terminal className="w-5 h-5" />
+                <Terminal className="w-4 h-4" />
                 npx agentlinter
               </a>
               <a
                 href="https://github.com/seojoonkim/agentlinter"
                 target="_blank"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-700 hover:border-slate-500 transition-all font-medium text-slate-300"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all"
               >
-                <Star className="w-4 h-4" />
+                <Star className="w-3.5 h-3.5" />
                 Star on GitHub
               </a>
             </div>
           </motion.div>
 
-          {/* Terminal Demo */}
+          {/* Terminal */}
           <motion.div
-            className="max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 40 }}
+            className="mt-16 sm:mt-20"
+            initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
             <AnimatedTerminal />
           </motion.div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 sm:py-20 px-5 sm:px-6" id="features">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            className="text-center mb-14"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+      {/* ── Features ── */}
+      <section className="py-20 sm:py-28 px-6 sm:px-8">
+        <div className="max-w-[920px] mx-auto">
+          <div className="mb-14 sm:mb-16">
+            <h2 className="text-[24px] sm:text-[32px] font-bold tracking-tight mb-3">
               Everything your agent needs
             </h2>
-            <p className="text-slate-400 max-w-xl mx-auto">
-              From basic scoring to self-evolving intelligence — AgentLinter
-              covers the full lifecycle.
+            <p className="text-[var(--text-secondary)] text-[15px]">
+              From basic scoring to self-evolving intelligence.
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            <FeatureCard
-              icon={BarChart3}
-              title="Multi-dimensional Score"
-              description="5 categories: Structure, Clarity, Completeness, Security, Consistency. Not just a single number."
-              tag="Core"
-            />
-            <FeatureCard
-              icon={Zap}
-              title="Auto-fix"
-              description="Run --fix to automatically apply best practices. Accept, reject, or customize each suggestion."
-              tag="Core"
-            />
-            <FeatureCard
-              icon={Shield}
-              title="Secret Scan"
-              description="Detect API keys, tokens, and passwords leaked in your agent files. Before they reach production."
-              tag="Security"
-            />
-            <FeatureCard
-              icon={FileText}
-              title="Cross-file Consistency"
-              description="Catch contradictions between SOUL.md, CLAUDE.md, and TOOLS.md. Keep your agent coherent."
-            />
-            <FeatureCard
-              icon={Terminal}
-              title="Templates"
-              description="Bootstrap with agentlinter init — choose from personal, coding, team, or chatbot templates."
-            />
-            <FeatureCard
-              icon={Lock}
-              title="Custom Rules"
-              description="Define team-specific rules in .agentlinterrc. Enforce your standards across all projects."
-            />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              {
+                icon: BarChart3,
+                title: "Multi-dimensional Score",
+                desc: "5 categories: Structure, Clarity, Completeness, Security, Consistency.",
+              },
+              {
+                icon: Zap,
+                title: "Auto-fix",
+                desc: "Run --fix to automatically apply best practices to your files.",
+              },
+              {
+                icon: Shield,
+                title: "Secret Scan",
+                desc: "Detect API keys, tokens, and passwords before they leak.",
+              },
+              {
+                icon: FileText,
+                title: "Cross-file Consistency",
+                desc: "Catch contradictions between SOUL.md, CLAUDE.md, TOOLS.md.",
+              },
+              {
+                icon: Terminal,
+                title: "Templates",
+                desc: "Bootstrap with agentlinter init — personal, coding, team, or chatbot.",
+              },
+              {
+                icon: Lock,
+                title: "Custom Rules",
+                desc: "Define team rules in .agentlinterrc. Enforce your standards.",
+              },
+            ].map((f) => (
+              <div
+                key={f.title}
+                className="p-5 sm:p-6 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] transition-colors"
+              >
+                <f.icon className="w-5 h-5 text-[var(--text-dim)] mb-4" />
+                <h3 className="font-semibold text-[15px] mb-2">{f.title}</h3>
+                <p className="text-[13px] text-[var(--text-secondary)] leading-[1.6]">
+                  {f.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Viral Loop Section */}
-      <section className="py-16 sm:py-20 px-5 sm:px-6 bg-gradient-to-b from-transparent via-indigo-950/10 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6">
-                Score it.
-                <br />
-                <span className="text-indigo-400">Share it.</span>
+      {/* ── Share ── */}
+      <section className="py-20 sm:py-28 px-6 sm:px-8 border-t border-[var(--border)]">
+        <div className="max-w-[920px] mx-auto">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+            <div>
+              <h2 className="text-[24px] sm:text-[32px] font-bold tracking-tight mb-4">
+                Score it. Share it.
               </h2>
-              <p className="text-slate-400 mb-8 leading-relaxed">
-                Every lint result generates a shareable Score Card. One click to
-                post on X. Watch your friends try to beat your score.
+              <p className="text-[var(--text-secondary)] text-[15px] leading-[1.7] mb-8">
+                Every lint generates a shareable Score Card. One click to post
+                on X. Watch your friends try to beat your score.
               </p>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {[
                   "Auto-generated Score Card image",
-                  "One-click share to X / Twitter",
-                  "Percentile ranking (Top 12%)",
-                  "Progress tracking (72 → 89, +17 points!)",
+                  "One-click share to X",
+                  "Percentile ranking — Top 12%",
+                  "Progress tracking — 72 → 89 (+17 pts)",
                   "Badges: Security Master 🛡️, Perfect Score 💯",
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-indigo-400" />
+                  <div key={item} className="flex items-start gap-3">
+                    <div className="w-4 h-4 rounded-full bg-[var(--accent-dim)] flex items-center justify-center mt-0.5 shrink-0">
+                      <Check className="w-2.5 h-2.5 text-[var(--accent)]" />
                     </div>
-                    <span className="text-sm text-slate-300">{item}</span>
+                    <span className="text-[14px] text-[var(--text-secondary)]">
+                      {item}
+                    </span>
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             <ScoreCardPreview />
           </div>
         </div>
       </section>
 
-      {/* Self-Evolving Section */}
-      <section className="py-16 sm:py-20 px-5 sm:px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-              The platform gets{" "}
-              <span className="text-emerald-400">smarter</span> with every
-              lint.
+      {/* ── Self-Evolving ── */}
+      <section className="py-20 sm:py-28 px-6 sm:px-8 border-t border-[var(--border)]">
+        <div className="max-w-[920px] mx-auto">
+          <div className="mb-14">
+            <h2 className="text-[24px] sm:text-[32px] font-bold tracking-tight mb-3">
+              Gets smarter with every lint
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto mb-12">
+            <p className="text-[var(--text-secondary)] text-[15px] max-w-[520px] leading-[1.7]">
               Anonymized usage patterns feed back into the rule engine. Common
-              failures become new rules. Rejected fixes get replaced. Templates
-              evolve.
+              failures become new rules. Rejected fixes get replaced.
             </p>
-          </motion.div>
+          </div>
 
-          <FlywheelDiagram />
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-10 sm:mt-14">
+          {/* Flywheel */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap mb-12 sm:mb-14">
             {[
-              {
-                title: "Rule Tuning",
-                desc: "Weights auto-adjust based on which warnings users fix immediately",
-                level: "L1 — Auto",
-              },
-              {
-                title: "Rule Discovery",
-                desc: "Patterns found in top-scoring agents become new rule candidates",
-                level: "L2 — Semi-auto",
-              },
-              {
-                title: "Fix Evolution",
-                desc: "Low-acceptance fixes get A/B tested and replaced with better ones",
-                level: "L3 — Auto",
-              },
-              {
-                title: "Template Evolution",
-                desc: "Templates update based on what files users consistently add",
-                level: "L4 — Semi-auto",
-              },
-            ].map((item) => (
-              <motion.div
-                key={item.title}
-                className="p-5 rounded-xl bg-[var(--al-bg-card)] border border-[var(--al-border)] text-left"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                  {item.level}
-                </span>
-                <h3 className="font-semibold mt-3 mb-2">{item.title}</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  {item.desc}
-                </p>
-              </motion.div>
+              { icon: Search, label: "Lint" },
+              { icon: Share2, label: "Share" },
+              { icon: Users, label: "Users" },
+              { icon: TrendingUp, label: "Data" },
+              { icon: RefreshCw, label: "Rules" },
+            ].map((s, i) => (
+              <div key={s.label} className="flex items-center gap-2 sm:gap-3">
+                <div className="flex flex-col items-center gap-1.5">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center">
+                    <s.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-dim)]" />
+                  </div>
+                  <span className="text-[10px] sm:text-[11px] text-[var(--text-dim)]">
+                    {s.label}
+                  </span>
+                </div>
+                {i < 4 && (
+                  <ChevronRight className="w-3 h-3 text-[var(--text-dim)] mt-[-16px]" />
+                )}
+              </div>
             ))}
           </div>
 
-          <p className="text-xs text-slate-500 mt-8">
-            All data is anonymized. Opt-out anytime with{" "}
-            <code className="text-slate-400">--no-telemetry</code>.
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                level: "L1 · Auto",
+                title: "Rule Tuning",
+                desc: "Weights adjust based on which warnings users fix immediately.",
+              },
+              {
+                level: "L2 · Semi",
+                title: "Rule Discovery",
+                desc: "Patterns in top agents become new rule candidates.",
+              },
+              {
+                level: "L3 · Auto",
+                title: "Fix Evolution",
+                desc: "Low-acceptance fixes get A/B tested and replaced.",
+              },
+              {
+                level: "L4 · Semi",
+                title: "Template Evolution",
+                desc: "Templates update based on what files users add.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)]"
+              >
+                <span className="text-[10px] mono text-[var(--accent)] bg-[var(--accent-dim)] px-2 py-0.5 rounded-full">
+                  {item.level}
+                </span>
+                <h3 className="font-semibold text-[14px] mt-3 mb-1.5">
+                  {item.title}
+                </h3>
+                <p className="text-[12px] text-[var(--text-secondary)] leading-[1.6]">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-[12px] text-[var(--text-dim)] mt-6">
+            All data anonymized. Opt-out:{" "}
+            <code className="text-[var(--text-secondary)]">--no-telemetry</code>
           </p>
         </div>
       </section>
 
-      {/* Get Started */}
-      <section className="py-16 sm:py-20 px-5 sm:px-6" id="get-started">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-              Get started in 10 seconds
-            </h2>
-          </motion.div>
+      {/* ── Get Started ── */}
+      <section
+        className="py-20 sm:py-28 px-6 sm:px-8 border-t border-[var(--border)]"
+        id="get-started"
+      >
+        <div className="max-w-[560px] mx-auto">
+          <h2 className="text-[24px] sm:text-[32px] font-bold tracking-tight mb-10 sm:mb-12">
+            Get started in 10 seconds
+          </h2>
 
           <div className="space-y-4">
             {[
-              {
-                step: "1",
-                title: "Score your agent",
-                code: "npx agentlinter score .",
-              },
-              {
-                step: "2",
-                title: "Auto-fix issues",
-                code: "npx agentlinter fix --auto",
-              },
-              {
-                step: "3",
-                title: "Share your score",
-                code: "npx agentlinter share",
-              },
+              { step: "1", label: "Score your agent", cmd: "npx agentlinter score ." },
+              { step: "2", label: "Auto-fix issues", cmd: "npx agentlinter fix --auto" },
+              { step: "3", label: "Share your score", cmd: "npx agentlinter share" },
             ].map((item) => (
-              <motion.div
+              <div
                 key={item.step}
-                className="flex items-center gap-5 p-5 rounded-xl bg-[var(--al-bg-card)] border border-[var(--al-border)]"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                className="flex items-center gap-4 p-4 sm:p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)]"
               >
-                <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-indigo-400 font-bold">{item.step}</span>
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-dim)] flex items-center justify-center shrink-0">
+                  <span className="text-[var(--accent)] text-[13px] font-semibold mono">
+                    {item.step}
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <div className="text-sm text-slate-400 mb-1">{item.title}</div>
-                  <code className="text-indigo-300 font-mono text-sm">
-                    {item.code}
+                <div className="flex-1 min-w-0">
+                  <div className="text-[12px] text-[var(--text-dim)] mb-0.5">
+                    {item.label}
+                  </div>
+                  <code className="text-[var(--accent)] text-[13px]">
+                    {item.cmd}
                   </code>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-600" />
-              </motion.div>
+              </div>
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <p className="text-slate-500 text-sm">
-              Works with Claude Code, Clawdbot, Cursor, Windsurf, and any
-              AI agent workspace.
-            </p>
-          </div>
+          <p className="text-[var(--text-dim)] text-[13px] mt-8 text-center">
+            Works with Claude Code, Clawdbot, Cursor, Windsurf, and any AI
+            agent workspace.
+          </p>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-5 sm:px-6 border-t border-[var(--al-border)]">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Search className="w-4 h-4 text-indigo-400" />
+      {/* ── Footer ── */}
+      <footer className="py-10 px-6 sm:px-8 border-t border-[var(--border)]">
+        <div className="max-w-[920px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3 text-[13px]">
             <span className="font-semibold">AgentLinter</span>
-            <span className="text-slate-500 text-sm">
+            <span className="text-[var(--text-dim)]">
               by{" "}
               <a
                 href="https://twitter.com/simonkim_nft"
                 target="_blank"
-                className="text-slate-400 hover:text-white transition-colors"
+                className="text-[var(--text-secondary)] hover:text-white transition-colors"
               >
                 @simonkim_nft
               </a>
             </span>
           </div>
-          <div className="flex items-center gap-6 text-sm text-slate-500">
+          <div className="flex items-center gap-6 text-[13px] text-[var(--text-dim)]">
             <a
               href="https://github.com/seojoonkim/agentlinter"
               className="hover:text-white transition-colors"
@@ -652,9 +513,6 @@ export default function Home() {
             </a>
             <a href="#" className="hover:text-white transition-colors">
               Docs
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              ClawdHub
             </a>
           </div>
         </div>

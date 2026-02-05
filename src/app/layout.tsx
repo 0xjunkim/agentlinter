@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "AgentLinter — ESLint for AI Agents",
   description:
-    "Score, diagnose, and auto-fix your CLAUDE.md and agent workspace files. Sharpen your agent's edge.",
+    "Score, diagnose, and auto-fix your CLAUDE.md and agent workspace files.",
   openGraph: {
     title: "AgentLinter — ESLint for AI Agents",
     description: "Score, diagnose, and auto-fix your AI agent workspace files.",
@@ -27,9 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
       </head>
