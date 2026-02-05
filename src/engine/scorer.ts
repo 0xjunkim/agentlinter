@@ -84,14 +84,16 @@ function computeCategoryScore(
   // Start at 100, deduct for issues
   let score = 100;
 
+  const criticals = diagnostics.filter((d) => d.severity === "critical");
   const errors = diagnostics.filter((d) => d.severity === "error");
   const warnings = diagnostics.filter((d) => d.severity === "warning");
   const infos = diagnostics.filter((d) => d.severity === "info");
 
-  // Deductions
+  // Deductions (with caps to prevent info avalanche from tanking score)
+  score -= criticals.length * 20; // criticals are showstoppers
   score -= errors.length * 15; // errors are severe
-  score -= warnings.length * 8; // warnings are moderate
-  score -= infos.length * 3; // infos are minor
+  score -= warnings.length * 5; // warnings are moderate
+  score -= Math.min(infos.length * 1, 20); // infos are minor, capped at -20
 
   // Bonus points for good practices (category-specific)
   score += computeBonus(category, files);

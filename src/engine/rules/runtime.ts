@@ -218,10 +218,17 @@ export const runtimeRules: Rule[] = [
       const ruleId = this.id;
       const fileName = config.fileName;
 
+      // Paths where secrets are defined (not referenced) — skip these
+      const envDefinitionPrefixes = ["env.vars", "env.secrets"];
+
       function scanObject(obj: unknown, objPath: string) {
         if (!obj || typeof obj !== "object") return;
+        // Skip env var definition sections entirely
+        if (envDefinitionPrefixes.some((p) => objPath.startsWith(p))) return;
         for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
           const currentPath = objPath ? `${objPath}.${key}` : key;
+          // Skip env var definition sections
+          if (envDefinitionPrefixes.some((p) => currentPath.startsWith(p))) continue;
           if (typeof value === "string" && value.length > 0 && !value.startsWith("$")) {
             if (sensitiveKeys.some((sk) => key.toLowerCase().includes(sk))) {
               // Skip if it looks like a mode value (e.g., "token" for auth.mode)

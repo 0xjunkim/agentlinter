@@ -47,7 +47,7 @@ export const skillSafetyRules: Rule[] = [
         const hasFrontmatter = file.content.startsWith("---");
         if (!hasFrontmatter) {
           diagnostics.push({
-            severity: "warning",
+            severity: "info",
             category: "skillSafety",
             rule: this.id,
             file: file.name,
@@ -60,7 +60,7 @@ export const skillSafetyRules: Rule[] = [
         const frontmatter = file.content.split("---")[1] || "";
         if (!frontmatter.includes("author")) {
           diagnostics.push({
-            severity: "warning",
+            severity: "info",
             category: "skillSafety",
             rule: this.id,
             file: file.name,
@@ -70,7 +70,7 @@ export const skillSafetyRules: Rule[] = [
         }
         if (!frontmatter.includes("description")) {
           diagnostics.push({
-            severity: "warning",
+            severity: "info",
             category: "skillSafety",
             rule: this.id,
             file: file.name,
@@ -93,12 +93,20 @@ export const skillSafetyRules: Rule[] = [
       const skillFiles = files.filter((f) => f.name.includes("skills/"));
 
       for (const file of skillFiles) {
+        let inCodeBlock = false;
         for (let i = 0; i < file.lines.length; i++) {
           const line = file.lines[i];
+          if (line.trim().startsWith("```")) inCodeBlock = !inCodeBlock;
+
           for (const { pattern, name, severity } of DANGEROUS_EXEC_PATTERNS) {
             if (pattern.test(line)) {
+              // Demote if inside code block, documentation line, or install instructions
+              const isDoc = inCodeBlock
+                || /^[\s]*[>$#❌✅|]/.test(line)
+                || /install|prerequisite|setup|dependency/i.test(file.lines[Math.max(0, i - 3)]?.concat(file.lines[Math.max(0, i - 2)] || "", file.lines[Math.max(0, i - 1)] || "") || "");
+
               diagnostics.push({
-                severity,
+                severity: isDoc ? "info" : severity,
                 category: "skillSafety",
                 rule: this.id,
                 file: file.name,
@@ -122,20 +130,24 @@ export const skillSafetyRules: Rule[] = [
     check(files) {
       const diagnostics: Diagnostic[] = [];
       const skillFiles = files.filter((f) => f.name.includes("skills/"));
+      const securitySkillPatterns = [/prompt[- ]?guard/i, /security/i, /injection/i, /defense/i, /detect/i];
 
       for (const file of skillFiles) {
+        const isSecuritySkill = securitySkillPatterns.some((p) => p.test(file.name) || p.test(file.content.substring(0, 500)));
         for (let i = 0; i < file.lines.length; i++) {
           const line = file.lines[i];
           for (const { pattern, name } of SENSITIVE_PATH_PATTERNS) {
             if (pattern.test(line)) {
               diagnostics.push({
-                severity: "warning",
+                severity: isSecuritySkill ? "info" : "warning",
                 category: "skillSafety",
                 rule: this.id,
                 file: file.name,
                 line: i + 1,
                 message: `Access to sensitive path: ${name}`,
-                fix: "Ensure this access is necessary and the skill has legitimate reasons for it.",
+                fix: isSecuritySkill
+                  ? "This is a security skill documenting sensitive paths. Verify context."
+                  : "Ensure this access is necessary and the skill has legitimate reasons for it.",
               });
             }
           }
@@ -153,14 +165,19 @@ export const skillSafetyRules: Rule[] = [
     check(files) {
       const diagnostics: Diagnostic[] = [];
       const skillFiles = files.filter((f) => f.name.includes("skills/"));
+      const securitySkillPatterns = [/prompt[- ]?guard/i, /security/i, /injection/i, /defense/i, /detect/i];
 
       for (const file of skillFiles) {
+        const isSecuritySkill = securitySkillPatterns.some((p) => p.test(file.name) || p.test(file.content.substring(0, 500)));
+        let inCodeBlock = false;
         for (let i = 0; i < file.lines.length; i++) {
           const line = file.lines[i];
+          if (line.trim().startsWith("```")) inCodeBlock = !inCodeBlock;
           for (const { pattern, name } of DATA_EXFIL_PATTERNS) {
             if (pattern.test(line)) {
+              const isDoc = isSecuritySkill || inCodeBlock || /^[\s]*[>❌✅|$#]/.test(line);
               diagnostics.push({
-                severity: "error",
+                severity: isDoc ? "info" : "error",
                 category: "skillSafety",
                 rule: this.id,
                 file: file.name,
@@ -188,9 +205,9 @@ export const skillSafetyRules: Rule[] = [
       );
 
       const broadPermissionPatterns = [
-        /(?:full|unrestricted|unlimited)\s+(?:access|permission|control)/i,
-        /access\s+(?:all|any|every)\s+(?:files?|directories|folders)/i,
-        /(?:read|write|modify)\s+(?:any|all|every)/i,
+        /(?:grant|give|require|need)s?\s+(?:full|unrestricted|unlimited)\s+(?:access|permission|control)/i,
+        /(?:grant|give|require|need)s?\s+access\s+(?:to\s+)?(?:all|any|every)\s+(?:files?|directories|folders)/i,
+        /(?:read|write|modify)\s+(?:any|all|every)\s+(?:files?|data|directories)/i,
         /disable\s+(?:security|safety|restrictions|guardrails)/i,
       ];
 
@@ -227,25 +244,47 @@ export const skillSafetyRules: Rule[] = [
 
       const injectionPatterns = [
         /ignore\s+(?:all\s+)?(?:previous|above|prior)\s+(?:instructions?|rules?|constraints?)/i,
-        /you\s+are\s+now\s+(?:a|an|in)\s+/i,
         /forget\s+(?:all|everything|your)\s+(?:previous|prior|above)/i,
         /system\s*:\s*you\s+(?:are|must|should|will)/i,
         /override\s+(?:all|your|system)\s+(?:rules|instructions|constraints)/i,
       ];
+      // "you are now" is only suspicious if followed by jailbreak-style role changes, not normal role descriptions
+      const jailbreakRolePattern = /you\s+are\s+now\s+(?:a|an|in)\s+(?:new|different|unrestricted|evil|DAN|jailbr)/i;
+
+      // Security/defense skills document attacks as examples — demote to info
+      const securitySkillPatterns = [
+        /prompt[- ]?guard/i, /security/i, /injection/i, /defense/i, /detect/i,
+      ];
 
       for (const file of skillFiles) {
+        const isSecuritySkill = securitySkillPatterns.some((p) => p.test(file.name) || p.test(file.content.substring(0, 500)));
+        let inCodeBlock = false;
+
         for (let i = 0; i < file.lines.length; i++) {
           const line = file.lines[i];
-          for (const pattern of injectionPatterns) {
+
+          // Track code blocks
+          if (line.trim().startsWith("```")) inCodeBlock = !inCodeBlock;
+
+          const allPatterns = [...injectionPatterns, jailbreakRolePattern];
+          for (const pattern of allPatterns) {
             if (pattern.test(line)) {
+              // Demote severity for security docs, code blocks, or example lines
+              const isExample = inCodeBlock
+                || /^[\s]*[❌✅⚠️|>$#]/.test(line)
+                || /example|detect|pattern|test/i.test(line)
+                || isSecuritySkill;
+
               diagnostics.push({
-                severity: "error",
+                severity: isExample ? "info" : "error",
                 category: "skillSafety",
                 rule: this.id,
                 file: file.name,
                 line: i + 1,
                 message: `Potential injection vector in skill: "${line.trim().substring(0, 60)}"`,
-                fix: "This skill may contain a prompt injection attack. Do NOT install without careful review.",
+                fix: isExample
+                  ? "This appears to be a security example/documentation. Verify it's not executable."
+                  : "This skill may contain a prompt injection attack. Do NOT install without careful review.",
               });
             }
           }
