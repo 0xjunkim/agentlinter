@@ -41,8 +41,16 @@ function Logo({ size = 24 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="32" height="32" rx="8" fill="url(#logo-grad)" />
-      <path d="M16 6L24 10V18C24 22 20.4 25.4 16 27C11.6 25.4 8 22 8 18V10L16 6Z" fill="rgba(255,255,255,0.15)" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M13 16L15 18L19 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Prism body */}
+      <path d="M16 6L24 18H8L16 6Z" fill="rgba(255,255,255,0.12)" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
+      {/* Light rays splitting from prism — 5 dimensions */}
+      <line x1="24" y1="18" x2="27" y2="14" stroke="#a78bfa" strokeWidth="1" strokeLinecap="round" opacity="0.9" />
+      <line x1="24" y1="18" x2="27.5" y2="16.5" stroke="#5eead4" strokeWidth="1" strokeLinecap="round" opacity="0.9" />
+      <line x1="24" y1="18" x2="28" y2="19" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.7" />
+      <line x1="24" y1="18" x2="27.5" y2="21.5" stroke="#E27B4E" strokeWidth="1" strokeLinecap="round" opacity="0.9" />
+      <line x1="24" y1="18" x2="27" y2="24" stroke="#60a5fa" strokeWidth="1" strokeLinecap="round" opacity="0.9" />
+      {/* Input light */}
+      <line x1="5" y1="18" x2="8" y2="18" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
       <defs>
         <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32">
           <stop offset="0%" stopColor="#7c3aed" />
@@ -50,6 +58,65 @@ function Logo({ size = 24 }: { size?: number }) {
         </linearGradient>
       </defs>
     </svg>
+  );
+}
+
+/* ════════════════════════════════════════
+   Hero Prism Illustration
+   ════════════════════════════════════════ */
+function HeroPrism() {
+  return (
+    <motion.div 
+      className="relative w-full max-w-[320px] sm:max-w-[400px] mx-auto"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+    >
+      <svg viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+        {/* Glow behind prism */}
+        <circle cx="180" cy="120" r="80" fill="url(#prism-glow)" opacity="0.3" />
+        
+        {/* Input light beam */}
+        <line x1="20" y1="120" x2="130" y2="120" stroke="white" strokeWidth="2" opacity="0.4" />
+        <line x1="60" y1="120" x2="130" y2="120" stroke="white" strokeWidth="3" opacity="0.2" />
+        
+        {/* Input label */}
+        <text x="30" y="108" fill="#a8a8b0" fontSize="11" fontFamily="monospace">CLAUDE.md</text>
+        
+        {/* Prism */}
+        <path d="M180 50L240 180H120L180 50Z" fill="rgba(167,139,250,0.08)" stroke="url(#prism-stroke)" strokeWidth="2" strokeLinejoin="round" />
+        <path d="M180 50L240 180H120L180 50Z" fill="url(#prism-fill)" />
+        
+        {/* Output rays — 5 dimensions with colors */}
+        <line x1="240" y1="140" x2="370" y2="60" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+        <line x1="240" y1="150" x2="370" y2="100" stroke="#5eead4" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+        <line x1="240" y1="160" x2="370" y2="140" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+        <line x1="240" y1="170" x2="370" y2="180" stroke="#E27B4E" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+        <line x1="240" y1="178" x2="370" y2="216" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+        
+        {/* Output labels */}
+        <text x="310" y="56" fill="#a78bfa" fontSize="10" fontFamily="monospace">Structure</text>
+        <text x="310" y="96" fill="#5eead4" fontSize="10" fontFamily="monospace">Clarity</text>
+        <text x="310" y="136" fill="#a8a8b0" fontSize="10" fontFamily="monospace">Completeness</text>
+        <text x="310" y="176" fill="#E27B4E" fontSize="10" fontFamily="monospace">Security</text>
+        <text x="310" y="214" fill="#60a5fa" fontSize="10" fontFamily="monospace">Consistency</text>
+        
+        <defs>
+          <radialGradient id="prism-glow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="prism-stroke" x1="120" y1="180" x2="240" y2="50">
+            <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#5eead4" stopOpacity="0.4" />
+          </linearGradient>
+          <linearGradient id="prism-fill" x1="120" y1="180" x2="240" y2="50">
+            <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#5eead4" stopOpacity="0.03" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </motion.div>
   );
 }
 
@@ -164,7 +231,7 @@ function AnimatedTerminal() {
         <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         <span className="ml-3 text-[11px] text-[var(--text-dim)] mono">~/my-agent</span>
       </div>
-      <div className="p-6 sm:p-8 mono text-[11.5px] sm:text-[12.5px] leading-[1.9] min-h-[380px] sm:min-h-[420px] overflow-x-auto">
+      <div className="p-6 sm:p-8 mono text-[12px] sm:text-[13px] leading-[1.9] min-h-[380px] sm:min-h-[420px] overflow-x-auto">
         {lines.map((line, i) => (
           <div key={i} className={getColor(i)}>{line || "\u00A0"}</div>
         ))}
@@ -203,7 +270,7 @@ function ScoreCardPreview() {
             <div className="w-2 h-2 rounded-full bg-[#28c840]" />
           </div>
           <div className="flex-1 mx-2">
-            <div className="bg-white/[0.04] rounded-md px-3 py-1 text-[10px] text-[var(--text-dim)] mono text-center">
+            <div className="bg-white/[0.04] rounded-md px-3 py-1 text-[11px] text-[var(--text-dim)] mono text-center">
               agentlinter.com/r/a3f8k2
             </div>
           </div>
@@ -213,7 +280,7 @@ function ScoreCardPreview() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Logo size={16} />
-              <span className="text-[12px] text-[var(--text-dim)]">Score Report</span>
+              <span className="text-[13px] text-[var(--text-dim)]">Score Report</span>
             </div>
             <div className="px-2.5 py-1 rounded-lg text-[13px] font-bold mono text-[var(--accent)] bg-[var(--accent-dim)]">
               A
@@ -223,15 +290,15 @@ function ScoreCardPreview() {
           <div className="flex items-end gap-4">
             <span className="text-[48px] font-bold text-white leading-none glow-text">87</span>
             <div className="pb-2">
-              <div className="text-[11px] mono text-[var(--accent)]">Top 12%</div>
-              <div className="text-[10px] text-[var(--text-dim)]">of all agents</div>
+              <div className="text-[12px] mono text-[var(--accent)]">Top 12%</div>
+              <div className="text-[11px] text-[var(--text-dim)]">of all agents</div>
             </div>
           </div>
 
           <div className="space-y-2.5">
             {cats.map((c) => (
               <div key={c.label} className="flex items-center gap-3">
-                <span className="text-[10px] text-[var(--text-secondary)] w-[76px] text-right mono">{c.label}</span>
+                <span className="text-[11px] text-[var(--text-secondary)] w-[76px] text-right mono">{c.label}</span>
                 <div className="flex-1 h-[3px] bg-white/[0.04] rounded-full overflow-hidden">
                   <motion.div
                     className="h-full rounded-full"
@@ -242,13 +309,13 @@ function ScoreCardPreview() {
                     style={{ backgroundColor: c.color, opacity: 0.8 }}
                   />
                 </div>
-                <span className="text-[10px] w-5 mono" style={{ color: c.color }}>{c.score}</span>
+                <span className="text-[11px] w-5 mono" style={{ color: c.color }}>{c.score}</span>
               </div>
             ))}
           </div>
 
           <div className="pt-4 border-t border-[var(--border)]">
-            <div className="text-[10px] text-[var(--text-dim)] mono mb-2">Top issues</div>
+            <div className="text-[11px] text-[var(--text-dim)] mono mb-2">Top issues</div>
             <div className="space-y-1.5">
               {[
                 { type: "ERR", text: "Rotate exposed API key", color: "var(--red)" },
@@ -257,13 +324,13 @@ function ScoreCardPreview() {
               ].map((p, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <span className="text-[9px] mono px-1 rounded" style={{ color: p.color, backgroundColor: `${p.color}15` }}>{p.type}</span>
-                  <span className="text-[11px] text-[var(--text-secondary)]">{p.text}</span>
+                  <span className="text-[12px] text-[var(--text-secondary)]">{p.text}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-medium bg-[var(--accent-dim)] text-[var(--accent)] hover:bg-[var(--accent)]/20 transition-all">
+          <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[14px] font-medium bg-[var(--accent-dim)] text-[var(--accent)] hover:bg-[var(--accent)]/20 transition-all">
             <Share2 className="w-3.5 h-3.5" />
             Share on X
           </button>
@@ -816,10 +883,10 @@ export default function Home() {
       {/* ══════════════════════════════════════
          PRIVACY & SECURITY
          ══════════════════════════════════════ */}
-      <section id="privacy" className="py-18 sm:py-24 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section id="privacy" className="py-18 sm:py-24 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <FadeIn>
-            <p className="text-[13px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Privacy &amp; Security</p>
+            <p className="text-[14px] mono text-[var(--teal)] mb-4 tracking-wider uppercase">Privacy &amp; Security</p>
             <h2 className="display text-[32px] sm:text-[48px] lg:text-[56px] leading-[1.1] tracking-tight mb-6 max-w-[700px]">
               Your files never leave
               <br />
@@ -875,7 +942,7 @@ export default function Home() {
                 <div className="p-5 sm:p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] transition-all h-full">
                   <div className="flex items-center justify-between mb-4">
                     <item.icon className="w-5 h-5 text-[var(--teal)]" />
-                    <span className="text-[10px] mono text-[var(--teal)] bg-[var(--teal-dim)] px-2 py-0.5 rounded-lg">{item.badge}</span>
+                    <span className="text-[11px] mono text-[var(--teal)] bg-[var(--teal-dim)] px-2 py-0.5 rounded-lg">{item.badge}</span>
                   </div>
                   <h3 className="font-semibold text-[15px] mb-2">{item.title}</h3>
                   <p className="text-[13px] text-[var(--text-secondary)] leading-[1.7]">{item.desc}</p>
@@ -893,7 +960,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="text-[15px] font-semibold text-[var(--teal)] mb-2">TL;DR</h3>
-                  <p className="text-[14px] text-[var(--text)] leading-[1.7]">
+                  <p className="text-[15px] text-[var(--text)] leading-[1.7]">
                     AgentLinter reads your files locally, scores them locally, and outputs results locally.
                     Nothing touches a server unless <em>you</em> choose to share a report — and even then,
                     only scores and diagnostic messages are included, never your actual file contents.
@@ -908,7 +975,7 @@ export default function Home() {
       {/* ══════════════════════════════════════
          GET STARTED (bold CTA)
          ══════════════════════════════════════ */}
-      <section id="start" className="py-22 sm:py-28 px-6 sm:px-8 border-t border-[var(--border)] relative overflow-hidden">
+      <section id="start" className="py-22 sm:py-28 px-5 sm:px-8 border-t border-[var(--border)] relative overflow-hidden">
         {/* Background glow */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-[600px] h-[400px] rounded-full bg-[var(--accent)] opacity-[0.03] blur-[120px]" />
@@ -928,23 +995,23 @@ export default function Home() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] glow-accent mb-5">
+            <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] glow-accent mb-5 w-full sm:w-auto justify-center">
               <Terminal className="w-5 h-5 text-[var(--text-dim)]" />
               <CopyCommand command="npx agentlinter" className="text-[17px] sm:text-[19px]" />
             </div>
 
-            <p className="text-[12px] text-[var(--text-dim)] mono mb-8">
+            <p className="text-[13px] text-[var(--text-dim)] mono mb-8">
               100% free &amp; open source · Click to copy · Node.js 18+
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a href="https://github.com/seojoonkim/agentlinter" target="_blank"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all">
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto">
                 <Github className="w-4 h-4" />
                 Star on GitHub
               </a>
               <a href="https://github.com/seojoonkim/agentlinter#readme" target="_blank"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all">
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto">
                 <FileText className="w-4 h-4" />
                 Read the Docs
               </a>
@@ -956,7 +1023,7 @@ export default function Home() {
       {/* ══════════════════════════════════════
          SPREAD THE WORD
          ══════════════════════════════════════ */}
-      <section className="py-12 sm:py-16 px-6 sm:px-8 border-t border-[var(--border)]">
+      <section className="py-12 sm:py-16 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[600px] mx-auto text-center">
           <FadeIn>
             <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--teal-dim)] mb-5">
@@ -965,7 +1032,7 @@ export default function Home() {
             <h3 className="display text-[22px] sm:text-[28px] leading-[1.2] mb-4">
               Help us help more agents
             </h3>
-            <p className="text-[14px] sm:text-[15px] text-[var(--text-secondary)] leading-[1.7] mb-8 max-w-[480px] mx-auto">
+            <p className="text-[15px] sm:text-[16px] text-[var(--text-secondary)] leading-[1.7] mb-8 max-w-[480px] mx-auto">
               If AgentLinter helped improve your agent setup, share it with fellow developers.
               Every share helps the open-source agent ecosystem grow stronger.
             </p>
@@ -973,7 +1040,7 @@ export default function Home() {
               <a
                 href={`https://x.com/intent/tweet?text=${encodeURIComponent("Just discovered AgentLinter — it's like ESLint for AI agents. Scores your CLAUDE.md, AGENTS.md and agent workspace files.\n\nFree & open source:\nnpx agentlinter\n\nagentlinter.com")}`}
                 target="_blank"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[13px] hover:text-white hover:border-[var(--border-hover)] transition-all"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto"
               >
                 <ArrowUpRight className="w-3.5 h-3.5" />
                 Share on X
@@ -981,7 +1048,7 @@ export default function Home() {
               <a
                 href="https://github.com/seojoonkim/agentlinter"
                 target="_blank"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[13px] hover:text-white hover:border-[var(--border-hover)] transition-all"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto"
               >
                 <Github className="w-3.5 h-3.5" />
                 Star on GitHub
@@ -989,7 +1056,7 @@ export default function Home() {
               <a
                 href="https://discord.com/invite/clawd"
                 target="_blank"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[13px] hover:text-white hover:border-[var(--border-hover)] transition-all"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto"
               >
                 <Users className="w-3.5 h-3.5" />
                 Join Community
@@ -1000,7 +1067,7 @@ export default function Home() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="py-12 px-6 sm:px-8 border-t border-[var(--border)]">
+      <footer className="py-12 px-5 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3 text-[13px]">
@@ -1021,7 +1088,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 pt-6 border-t border-[var(--border)] text-center">
-            <p className="text-[11px] text-[var(--text-dim)] leading-[1.8]">
+            <p className="text-[12px] text-[var(--text-dim)] leading-[1.8]">
               Built on{" "}
               <a href="https://code.claude.com/docs/en/memory" target="_blank" className="hover:text-[var(--text-secondary)] transition-colors">Anthropic&apos;s CLAUDE.md standard</a>
               {" "}·{" "}
