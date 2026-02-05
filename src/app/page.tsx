@@ -67,7 +67,7 @@ function Logo({ size = 24 }: { size?: number }) {
 /* ════════════════════════════════════════
    Rotating Agent Name
    ════════════════════════════════════════ */
-const AGENT_NAMES = ["agent", "Claude Code", "Cursor", "Clawdbot", "Windsurf"];
+const AGENT_NAMES = ["agent", "Claude Code", "Cursor", "Clawdbot", "Windsurf", "Moltbot"];
 
 function RotatingAgentName() {
   const [index, setIndex] = useState(0);
@@ -95,7 +95,7 @@ function RotatingAgentName() {
       </AnimatePresence>
       {/* Invisible sizer to prevent layout shift — use widest name */}
       <span className="invisible block h-0 overflow-hidden" aria-hidden="true">
-        Claude Code
+        Claude Code_
       </span>
     </span>
   );
@@ -349,9 +349,9 @@ export default function Home() {
       {/* ── Nav ── */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-2xl bg-[var(--bg)]/80 border-b border-[var(--border)] px-5 sm:px-8" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <div className="max-w-[1000px] mx-auto h-14 flex items-center">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5">
             <Logo size={22} />
-            <span className="font-semibold text-[15px] tracking-tight">AgentLinter</span>
+            <span className="font-bold text-[17px] tracking-[-0.02em]">AgentLinter</span>
           </div>
           <div className="hidden sm:flex items-center gap-6 flex-1 justify-center">
             <a href="#why" className="text-[13px] text-[var(--text-dim)] hover:text-[var(--text-secondary)] transition-colors">Why</a>
