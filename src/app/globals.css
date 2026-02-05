@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #09090f;
-  --color-bg-elevated: #101018;
-  --color-bg-card: #151520;
-  --color-bg-card-hover: #1a1a28;
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-border-hover: rgba(255, 255, 255, 0.13);
-  --color-text: #ededea;
-  --color-text-secondary: #9b9ba3;
-  --color-text-dim: #5e5e6a;
+  --color-bg: #121214;
+  --color-bg-elevated: #1a1a1e;
+  --color-bg-card: #1e1e23;
+  --color-bg-card-hover: #252529;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.15);
+  --color-text: #f0efe9;
+  --color-text-secondary: #a8a8b0;
+  --color-text-dim: #6e6e7a;
   --color-accent: #a78bfa;
   --color-accent-bright: #c4b5fd;
   --color-accent-dim: rgba(167, 139, 250, 0.10);
@@ -25,15 +25,15 @@
 
 @layer base {
   :root {
-    --bg: #09090f;
-    --bg-elevated: #101018;
-    --bg-card: #151520;
-    --bg-card-hover: #1a1a28;
-    --border: rgba(255, 255, 255, 0.07);
-    --border-hover: rgba(255, 255, 255, 0.13);
-    --text: #ededea;
-    --text-secondary: #9b9ba3;
-    --text-dim: #5e5e6a;
+    --bg: #121214;
+    --bg-elevated: #1a1a1e;
+    --bg-card: #1e1e23;
+    --bg-card-hover: #252529;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    --text: #f0efe9;
+    --text-secondary: #a8a8b0;
+    --text-dim: #6e6e7a;
     --accent: #a78bfa;
     --accent-bright: #c4b5fd;
     --accent-dim: rgba(167, 139, 250, 0.10);
@@ -52,7 +52,7 @@
   }
 
   body {
-    background: var(--bg);
+    background: #121214;
     color: var(--text);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
