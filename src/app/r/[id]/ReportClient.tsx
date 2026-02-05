@@ -337,7 +337,7 @@ function Collapsible({ title, children, defaultOpen = false, badge, icon }: {
     <div className="border border-[var(--border)] rounded-xl bg-[var(--bg-card)] overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-between w-full px-5 py-4 hover:bg-[var(--bg-card-hover)] transition-colors"
+        className="flex items-center justify-between w-full px-3 sm:px-5 py-3 sm:py-4 hover:bg-[var(--bg-card-hover)] transition-colors"
       >
         <div className="flex items-center gap-2.5">
           {icon}
@@ -358,7 +358,7 @@ function Collapsible({ title, children, defaultOpen = false, badge, icon }: {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="px-5 pb-5 border-t border-[var(--border)]">
+            <div className="px-3 sm:px-5 pb-4 sm:pb-5 border-t border-[var(--border)]">
               {children}
             </div>
           </motion.div>
@@ -425,7 +425,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
     <div className="min-h-screen bg-[var(--bg)] noise">
       {/* Nav */}
       <nav className="border-b border-[var(--border)] sticky top-0 bg-[var(--bg)]/80 backdrop-blur-xl z-50">
-        <div className="max-w-[720px] mx-auto px-6 h-14 flex items-center justify-between">
+        <div className="max-w-[720px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <Logo size={20} />
             <span className="font-semibold text-[14px]">AgentLinter</span>
@@ -453,11 +453,11 @@ export default function ReportPage({ data }: { data: ReportData }) {
       </nav>
 
       {/* Content */}
-      <main className="max-w-[720px] mx-auto px-6 py-10 sm:py-14 space-y-8">
+      <main className="max-w-[720px] mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-6 sm:space-y-8">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
 
           {/* ═══════ Score Hero ═══════ */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-6 sm:p-8 mb-8">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-4 sm:p-8 mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 sm:gap-4 mb-3">
@@ -562,7 +562,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="rounded-xl border border-[#1d9bf0]/30 bg-gradient-to-r from-[#1d9bf0]/8 to-[#1d9bf0]/3 p-6"
+          className="rounded-xl border border-[#1d9bf0]/30 bg-gradient-to-r from-[#1d9bf0]/8 to-[#1d9bf0]/3 p-4 sm:p-6"
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex-1">
@@ -1046,7 +1046,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
         </div>
 
         {/* ═══════ Share CTA ═══════ */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-6 sm:p-8 text-center space-y-4">
+        <div className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-4 sm:p-8 text-center space-y-4">
           <div className="text-[28px]">{tier.emoji}</div>
           <p className="text-[18px] font-bold display">
             Score: {data.totalScore}/100 · {tier.grade} Tier
