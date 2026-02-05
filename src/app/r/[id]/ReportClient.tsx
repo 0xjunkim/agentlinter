@@ -586,7 +586,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
         </motion.div>
 
         {/* ═══════ Table of Contents ═══════ */}
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 sm:p-6">
           <h2 className="text-[15px] font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-3">In This Report</h2>
           <div className="grid grid-cols-2 gap-1.5">
             {[
@@ -834,7 +834,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
             <Sparkles className="w-5 h-5 text-[var(--accent)]" />
             Score Distribution
           </h2>
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 sm:p-6">
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <span className="text-[13px] text-[var(--text-secondary)]">Where you stand among all scanned workspaces</span>
               <span className="text-[12px] mono" style={{ color: tier.color }}>
@@ -869,7 +869,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
             Understanding how AgentLinter calculates your score helps you prioritize improvements.
           </p>
 
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 sm:p-6 space-y-5">
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 sm:p-6 space-y-5">
             {/* Base score */}
             <div>
               <h3 className="text-[15px] font-semibold mb-2">Base Score</h3>
@@ -941,7 +941,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
             <FileText className="w-5 h-5 text-[var(--accent)]" />
             Files Scanned ({data.filesScanned})
           </h2>
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 sm:p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
               {data.files.map((f) => {
                 const issues = data.diagnostics.filter((d) => d.file === f);
@@ -975,7 +975,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
             <ArrowRight className="w-5 h-5 text-[var(--accent)]" />
             Next Steps
           </h2>
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 sm:p-6 space-y-4">
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 sm:p-6 space-y-4">
             {data.totalScore >= 95 ? (
               <>
                 <div className="flex items-start gap-3">

@@ -27,12 +27,12 @@
 
 @layer base {
   :root {
-    --bg: #121214;
-    --bg-elevated: #1a1a1e;
-    --bg-card: #1e1e23;
-    --bg-card-hover: #252529;
-    --border: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(255, 255, 255, 0.15);
+    --bg: #0c0c0f;
+    --bg-elevated: #161619;
+    --bg-card: #1c1c22;
+    --bg-card-hover: #24242a;
+    --border: rgba(255, 255, 255, 0.10);
+    --border-hover: rgba(255, 255, 255, 0.18);
     --text: #f0efe9;
     --text-secondary: #a8a8b0;
     --text-dim: #6e6e7a;
