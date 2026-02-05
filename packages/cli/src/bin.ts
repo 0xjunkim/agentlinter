@@ -7,7 +7,7 @@ import { formatJSON } from './engine/reporter';
 import { uploadReport } from './upload';
 import { LintResult, Diagnostic } from './engine/types';
 
-const VERSION = "0.1.2";
+const VERSION = "0.1.3";
 
 /* ─── ANSI Colors ─── */
 const c = {
@@ -115,13 +115,22 @@ function formatTerminalColored(result: LintResult): string {
   lines.push("");
 
   // Score
+  // Grade tiers (strict)
   let scoreColor = c.red;
-  let scoreEmoji = "❌";
-  if (result.totalScore >= 90) { scoreColor = c.green; scoreEmoji = "🏆"; }
-  else if (result.totalScore >= 70) { scoreColor = c.green; scoreEmoji = "✅"; }
-  else if (result.totalScore >= 50) { scoreColor = c.yellow; scoreEmoji = "⚠️"; }
+  let scoreEmoji = "💀";
+  let grade = "F";
+  if (result.totalScore >= 97) { scoreColor = c.magenta; scoreEmoji = "🏆"; grade = "S"; }
+  else if (result.totalScore >= 93) { scoreColor = c.magenta; scoreEmoji = "⭐"; grade = "A+"; }
+  else if (result.totalScore >= 88) { scoreColor = c.green; scoreEmoji = "🎯"; grade = "A"; }
+  else if (result.totalScore >= 83) { scoreColor = c.green; scoreEmoji = "✨"; grade = "A-"; }
+  else if (result.totalScore >= 78) { scoreColor = c.green; scoreEmoji = "👍"; grade = "B+"; }
+  else if (result.totalScore >= 72) { scoreColor = c.green; scoreEmoji = "👌"; grade = "B"; }
+  else if (result.totalScore >= 65) { scoreColor = c.yellow; scoreEmoji = "📝"; grade = "B-"; }
+  else if (result.totalScore >= 55) { scoreColor = c.yellow; scoreEmoji = "🔧"; grade = "C+"; }
+  else if (result.totalScore >= 45) { scoreColor = c.red; scoreEmoji = "⚠️"; grade = "C"; }
+  else if (result.totalScore >= 30) { scoreColor = c.red; scoreEmoji = "🚨"; grade = "D"; }
 
-  lines.push(`${scoreEmoji} Overall Score: ${c.bold}${scoreColor}${result.totalScore}/100${c.reset}`);
+  lines.push(`${scoreEmoji} Overall Score: ${c.bold}${scoreColor}${result.totalScore}/100${c.reset} ${c.dim}(${grade})${c.reset}`);
   lines.push("");
 
   // Categories

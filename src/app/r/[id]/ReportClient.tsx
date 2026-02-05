@@ -59,16 +59,17 @@ function Logo({ size = 24 }: { size?: number }) {
 
 /* ─── Tier ─── */
 function getTier(score: number) {
-  if (score >= 95) return { grade: "S", color: "#c084fc", bg: "#c084fc18", label: "Exceptional", emoji: "🏆" };
-  if (score >= 90) return { grade: "A+", color: "#a78bfa", bg: "#a78bfa18", label: "Outstanding", emoji: "⭐" };
-  if (score >= 85) return { grade: "A", color: "#818cf8", bg: "#818cf818", label: "Excellent", emoji: "🎯" };
-  if (score >= 80) return { grade: "A-", color: "#60a5fa", bg: "#60a5fa18", label: "Great", emoji: "✨" };
-  if (score >= 75) return { grade: "B+", color: "#34d399", bg: "#34d39918", label: "Good", emoji: "👍" };
-  if (score >= 70) return { grade: "B", color: "#4ade80", bg: "#4ade8018", label: "Decent", emoji: "👌" };
+  if (score >= 97) return { grade: "S", color: "#c084fc", bg: "#c084fc18", label: "Exceptional", emoji: "🏆" };
+  if (score >= 93) return { grade: "A+", color: "#a78bfa", bg: "#a78bfa18", label: "Outstanding", emoji: "⭐" };
+  if (score >= 88) return { grade: "A", color: "#818cf8", bg: "#818cf818", label: "Excellent", emoji: "🎯" };
+  if (score >= 83) return { grade: "A-", color: "#60a5fa", bg: "#60a5fa18", label: "Great", emoji: "✨" };
+  if (score >= 78) return { grade: "B+", color: "#34d399", bg: "#34d39918", label: "Good", emoji: "👍" };
+  if (score >= 72) return { grade: "B", color: "#4ade80", bg: "#4ade8018", label: "Decent", emoji: "👌" };
   if (score >= 65) return { grade: "B-", color: "#fbbf24", bg: "#fbbf2418", label: "Fair", emoji: "📝" };
-  if (score >= 60) return { grade: "C+", color: "#fb923c", bg: "#fb923c18", label: "Needs Work", emoji: "🔧" };
-  if (score >= 55) return { grade: "C", color: "#f87171", bg: "#f8717118", label: "Poor", emoji: "⚠️" };
-  return { grade: "D", color: "#ef4444", bg: "#ef444418", label: "Critical", emoji: "🚨" };
+  if (score >= 55) return { grade: "C+", color: "#fb923c", bg: "#fb923c18", label: "Needs Work", emoji: "🔧" };
+  if (score >= 45) return { grade: "C", color: "#f87171", bg: "#f8717118", label: "Poor", emoji: "⚠️" };
+  if (score >= 30) return { grade: "D", color: "#ef4444", bg: "#ef444418", label: "Weak", emoji: "🚨" };
+  return { grade: "F", color: "#dc2626", bg: "#dc262618", label: "Critical", emoji: "💀" };
 }
 
 /* ─── Category Icon ─── */
