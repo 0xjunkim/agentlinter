@@ -354,7 +354,7 @@ export default function Home() {
         <div className="max-w-[1000px] mx-auto h-14 flex items-center">
           <div className="flex items-center gap-0.5">
             <Logo size={22} />
-            <span className="text-[19px]" style={{ fontFamily: "'Inter', system-ui, sans-serif", fontWeight: 800, letterSpacing: "-0.01em" }}>
+            <span className="text-[19px]" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, letterSpacing: "-0.01em" }}>
               Agent<span className="text-[var(--accent)]">Linter</span>
             </span>
           </div>
