@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #06060a;
-  --color-bg-elevated: #0c0b14;
-  --color-bg-card: #11101a;
-  --color-bg-card-hover: #161522;
-  --color-border: rgba(255, 255, 255, 0.05);
-  --color-border-hover: rgba(255, 255, 255, 0.10);
-  --color-text: #eae8e4;
-  --color-text-secondary: #8a8a8e;
-  --color-text-dim: #4a4a54;
+  --color-bg: #09090f;
+  --color-bg-elevated: #101018;
+  --color-bg-card: #151520;
+  --color-bg-card-hover: #1a1a28;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-hover: rgba(255, 255, 255, 0.13);
+  --color-text: #ededea;
+  --color-text-secondary: #9b9ba3;
+  --color-text-dim: #5e5e6a;
   --color-accent: #a78bfa;
   --color-accent-bright: #c4b5fd;
   --color-accent-dim: rgba(167, 139, 250, 0.10);
@@ -25,15 +25,15 @@
 
 @layer base {
   :root {
-    --bg: #06060a;
-    --bg-elevated: #0c0b14;
-    --bg-card: #11101a;
-    --bg-card-hover: #16152;
-    --border: rgba(255, 255, 255, 0.05);
-    --border-hover: rgba(255, 255, 255, 0.10);
-    --text: #eae8e4;
-    --text-secondary: #8a8a8e;
-    --text-dim: #4a4a54;
+    --bg: #09090f;
+    --bg-elevated: #101018;
+    --bg-card: #151520;
+    --bg-card-hover: #1a1a28;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-hover: rgba(255, 255, 255, 0.13);
+    --text: #ededea;
+    --text-secondary: #9b9ba3;
+    --text-dim: #5e5e6a;
     --accent: #a78bfa;
     --accent-bright: #c4b5fd;
     --accent-dim: rgba(167, 139, 250, 0.10);

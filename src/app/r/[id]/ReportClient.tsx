@@ -1048,6 +1048,33 @@ export default function ReportPage({ data }: { data: ReportData }) {
           </div>
         </div>
 
+        {/* ═══════ Spread the Word ═══════ */}
+        <div className="rounded-xl border border-[var(--border)] bg-gradient-to-br from-[var(--accent-dim)] to-[var(--teal-dim)] p-5 text-center">
+          <p className="text-[14px] font-medium text-[var(--text)] mb-2">
+            🙌 Help fellow agent builders
+          </p>
+          <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed mb-4 max-w-[400px] mx-auto">
+            If AgentLinter helped you improve your agent setup, share it with developers in your community. Every share helps the ecosystem.
+          </p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <a
+              href={`https://x.com/intent/tweet?text=${encodeURIComponent(`My agent workspace scored ${data.totalScore}/100 on AgentLinter ⚡\n\nFree & open source — score your own:\nnpx agentlinter\n\nagentlinter.com`)}`}
+              target="_blank"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-medium bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-white hover:border-[var(--border-hover)] transition-all"
+            >
+              <ExternalLink className="w-3 h-3" />
+              Share on X
+            </a>
+            <a
+              href="https://github.com/seojoonkim/agentlinter"
+              target="_blank"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-medium bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-white hover:border-[var(--border-hover)] transition-all"
+            >
+              ⭐ Star on GitHub
+            </a>
+          </div>
+        </div>
+
         {/* ═══════ Footer ═══════ */}
         <div className="pt-6 border-t border-[var(--border)] flex items-center justify-between text-[12px] text-[var(--text-dim)]">
           <div className="flex items-center gap-2">

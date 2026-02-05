@@ -952,6 +952,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══════════════════════════════════════
+         SPREAD THE WORD
+         ══════════════════════════════════════ */}
+      <section className="py-16 sm:py-20 px-6 sm:px-8 border-t border-[var(--border)]">
+        <div className="max-w-[600px] mx-auto text-center">
+          <FadeIn>
+            <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--teal-dim)] mb-5">
+              <Share2 className="w-5 h-5 text-[var(--teal)]" />
+            </div>
+            <h3 className="display text-[22px] sm:text-[28px] leading-[1.2] mb-4">
+              Help us help more agents
+            </h3>
+            <p className="text-[14px] sm:text-[15px] text-[var(--text-secondary)] leading-[1.7] mb-8 max-w-[480px] mx-auto">
+              If AgentLinter helped improve your agent setup, share it with fellow developers.
+              Every share helps the open-source agent ecosystem grow stronger.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <a
+                href={`https://x.com/intent/tweet?text=${encodeURIComponent("Just discovered AgentLinter — it's like ESLint for AI agents. Scores your CLAUDE.md, AGENTS.md and agent workspace files.\n\nFree & open source:\nnpx agentlinter\n\nagentlinter.com")}`}
+                target="_blank"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[13px] hover:text-white hover:border-[var(--border-hover)] transition-all"
+              >
+                <ArrowUpRight className="w-3.5 h-3.5" />
+                Share on X
+              </a>
+              <a
+                href="https://github.com/seojoonkim/agentlinter"
+                target="_blank"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[13px] hover:text-white hover:border-[var(--border-hover)] transition-all"
+              >
+                <Github className="w-3.5 h-3.5" />
+                Star on GitHub
+              </a>
+              <a
+                href="https://discord.com/invite/clawd"
+                target="_blank"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] text-[13px] hover:text-white hover:border-[var(--border-hover)] transition-all"
+              >
+                <Users className="w-3.5 h-3.5" />
+                Join Community
+              </a>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
       {/* ── Footer ── */}
       <footer className="py-12 px-6 sm:px-8 border-t border-[var(--border)]">
         <div className="max-w-[1000px] mx-auto">
