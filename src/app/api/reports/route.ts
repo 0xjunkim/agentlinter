@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       id,
-      url: `https://agentlinter.vercel.app/r/${id}`,
+      url: `https://agentlinter.com/r/${id}`,
     });
   } catch (e) {
     console.error("Report API error:", e);

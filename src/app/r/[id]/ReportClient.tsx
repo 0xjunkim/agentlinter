@@ -406,7 +406,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
   const totalRules = Object.values(CATEGORY_META).reduce((sum, c) => sum + c.rules.length, 0);
   const passedRules = totalRules - data.diagnostics.length;
 
-  const shareText = `My agent workspace scored ${data.totalScore}/100 (${tier.grade} tier, top ${percentile}%) on AgentLinter ⚡\n\nFree & open source — score your own:\nnpx agentlinter\n\nagentlinter.vercel.app`;
+  const shareText = `My agent workspace scored ${data.totalScore}/100 (${tier.grade} tier, top ${percentile}%) on AgentLinter ⚡\n\nFree & open source — score your own:\nnpx agentlinter\n\nagentlinter.com`;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
   return (
@@ -1044,7 +1044,7 @@ export default function ReportPage({ data }: { data: ReportData }) {
           <div className="text-[12px] text-[var(--text-secondary)] leading-relaxed">
             <span className="font-medium text-[var(--teal)]">Privacy:</span> This report contains only scores, file names, and diagnostic messages.
             Your actual file contents never leave your machine. AgentLinter runs 100% locally — no cloud, no API calls.{" "}
-            <a href="https://agentlinter.vercel.app/#privacy" className="text-[var(--teal)] hover:underline">Learn more →</a>
+            <a href="https://agentlinter.com/#privacy" className="text-[var(--teal)] hover:underline">Learn more →</a>
           </div>
         </div>
 
