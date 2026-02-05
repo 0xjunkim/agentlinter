@@ -381,7 +381,7 @@ export default function Home() {
               <span>Optimized for <span className="text-[var(--claude)]">CLAUDE.md</span> · Free &amp; Open Source</span>
             </div>
 
-            <h1 className="display text-[36px] sm:text-[56px] lg:text-[72px] leading-[1.05] tracking-tight mb-5">
+            <h1 className="display text-[36px] sm:text-[56px] lg:text-[72px] leading-[1.2] tracking-tight mb-5">
               Is your <RotatingAgentName />
               <br />
               <span className="text-[var(--accent)] glow-text">sharp & secure?</span>
