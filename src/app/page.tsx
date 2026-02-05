@@ -352,9 +352,11 @@ export default function Home() {
       {/* ── Nav ── */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-2xl bg-[var(--bg)]/80 border-b border-[var(--border)] px-5 sm:px-8" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <div className="max-w-[1000px] mx-auto h-14 flex items-center">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-0.5">
             <Logo size={22} />
-            <span className="font-bold text-[17px] tracking-[-0.02em]">AgentLinter</span>
+            <span className="text-[17px] tracking-[-0.04em]" style={{ fontFamily: "'Inter', system-ui, sans-serif", fontWeight: 800, letterSpacing: "-0.04em" }}>
+              Agent<span className="text-[var(--accent)]">Linter</span>
+            </span>
           </div>
           <div className="hidden sm:flex items-center gap-6 flex-1 justify-center">
             <a href="#why" className="text-[13px] text-[var(--text-dim)] hover:text-[var(--text-secondary)] transition-colors">Why</a>
