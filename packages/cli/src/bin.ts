@@ -7,7 +7,7 @@ import { formatJSON } from './engine/reporter';
 import { uploadReport } from './upload';
 import { LintResult, Diagnostic } from './engine/types';
 
-const VERSION = "0.1.4";
+const VERSION = "0.1.5";
 
 /* ─── ANSI Colors ─── */
 const c = {
@@ -184,8 +184,9 @@ function formatTerminalColored(result: LintResult): string {
 }
 
 function makeBar(score: number): string {
-  const filled = Math.round(score / 10);
-  const empty = 10 - filled;
+  const total = 25;
+  const filled = Math.round((score / 100) * total);
+  const empty = total - filled;
   return "█".repeat(filled) + "░".repeat(empty);
 }
 
