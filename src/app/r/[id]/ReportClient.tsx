@@ -879,12 +879,15 @@ export default function ReportPage({ data }: { data: ReportData }) {
             {/* Deductions */}
             <div>
               <h3 className="text-[13px] font-semibold mb-3">Deductions</h3>
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {SCORING_METHODOLOGY.deductions.map((d) => (
                   <div key={d.severity} className="flex items-center gap-3">
-                    <span className="mono text-[14px] font-bold w-[40px]" style={{ color: d.color }}>
+                    <div
+                      className="flex items-center justify-center w-[44px] h-[28px] rounded-lg mono text-[13px] font-bold shrink-0"
+                      style={{ color: d.color, backgroundColor: `color-mix(in srgb, ${d.color} 12%, transparent)` }}
+                    >
                       {d.points}
-                    </span>
+                    </div>
                     <div className="flex-1">
                       <span className="text-[13px] font-medium" style={{ color: d.color }}>{d.severity}</span>
                       <span className="text-[12px] text-[var(--text-dim)] ml-2">{d.description}</span>
