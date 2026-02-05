@@ -1,0 +1,148 @@
+{
+  "score": 89,
+  "categories": [
+    {
+      "name": "Structure",
+      "score": 69,
+      "weight": 0.2,
+      "issues": 7
+    },
+    {
+      "name": "Clarity",
+      "score": 97,
+      "weight": 0.25,
+      "issues": 1
+    },
+    {
+      "name": "Completeness",
+      "score": 100,
+      "weight": 0.2,
+      "issues": 0
+    },
+    {
+      "name": "Security",
+      "score": 100,
+      "weight": 0.2,
+      "issues": 0
+    },
+    {
+      "name": "Consistency",
+      "score": 75,
+      "weight": 0.15,
+      "issues": 2
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "info",
+      "category": "structure",
+      "rule": "structure/heading-hierarchy",
+      "file": "compound/agentlinter-plan.md",
+      "line": 71,
+      "message": "Heading level skipped: h1 → h3. Consider using h2 instead."
+    },
+    {
+      "severity": "info",
+      "category": "structure",
+      "rule": "structure/heading-hierarchy",
+      "file": "compound/moltbook-evolution.md",
+      "line": 19,
+      "message": "Heading level skipped: h1 → h3. Consider using h2 instead."
+    },
+    {
+      "severity": "info",
+      "category": "structure",
+      "rule": "structure/heading-hierarchy",
+      "file": "compound/moltbook-learning.md",
+      "line": 28,
+      "message": "Heading level skipped: h1 → h3. Consider using h2 instead."
+    },
+    {
+      "severity": "warning",
+      "category": "structure",
+      "rule": "structure/no-empty-sections",
+      "file": "MEMORY.md",
+      "line": 7,
+      "message": "Empty section: \"🌌 나에 대해\". Either add content or remove the heading."
+    },
+    {
+      "severity": "warning",
+      "category": "structure",
+      "rule": "structure/no-empty-sections",
+      "file": "MEMORY.md",
+      "line": 28,
+      "message": "Empty section: \"👥 중요 관계\". Either add content or remove the heading."
+    },
+    {
+      "severity": "warning",
+      "category": "structure",
+      "rule": "structure/no-empty-sections",
+      "file": "MEMORY.md",
+      "line": 48,
+      "message": "Empty section: \"🚀 진행 중인 프로젝트\". Either add content or remove the heading."
+    },
+    {
+      "severity": "warning",
+      "category": "structure",
+      "rule": "structure/no-empty-sections",
+      "file": "MEMORY.md",
+      "line": 92,
+      "message": "Empty section: \"💡 배운 것들\". Either add content or remove the heading."
+    },
+    {
+      "severity": "warning",
+      "category": "clarity",
+      "rule": "clarity/no-vague-instructions",
+      "file": "SOUL.md",
+      "line": 11,
+      "message": "Vague instruction: \"**Be resourceful before asking.** Try to figure it out. Read the file. Check the...\"",
+      "fix": "Use direct instructions instead of 'try to' (e.g., 'do X' not 'try to do X')"
+    },
+    {
+      "severity": "error",
+      "category": "consistency",
+      "rule": "consistency/referenced-files-exist",
+      "file": "AGENTS.md",
+      "message": "Referenced file \"SKILL.md\" not found in workspace.",
+      "fix": "Create SKILL.md or remove the reference."
+    },
+    {
+      "severity": "error",
+      "category": "consistency",
+      "rule": "consistency/referenced-files-exist",
+      "file": "TOOLS.md",
+      "message": "Referenced file \"HVL-MEMBERS.md\" not found in workspace.",
+      "fix": "Create HVL-MEMBERS.md or remove the reference."
+    }
+  ],
+  "files": [
+    "AGENTS.md",
+    "SOUL.md",
+    "IDENTITY.md",
+    "USER.md",
+    "TOOLS.md",
+    "SECURITY.md",
+    "FORMATTING.md",
+    "HEARTBEAT.md",
+    "MEMORY.md",
+    "compound/SUB-AGENTS.md",
+    "compound/agentlinter-plan.md",
+    "compound/context-metrics.md",
+    "compound/hivefence-trust-design-analysis.md",
+    "compound/moltbook-evolution.md",
+    "compound/moltbook-learning-result.md",
+    "compound/moltbook-learning.md",
+    "compound/patterns.md",
+    "compound/progress.md",
+    "compound/queue.md",
+    "compound/rabbit-hole-result.md",
+    "compound/recurring.md",
+    "compound/session-retrospective.md",
+    "compound/simon-chat-buffer.md",
+    "compound/subagent-self-heal.md",
+    "compound/twitter-analysis-result.md",
+    "compound/voice-ai-solutions-comparison.md",
+    "compound/work-log.md"
+  ],
+  "timestamp": "2026-02-05T09:38:28.880Z"
+}

@@ -155,7 +155,7 @@ function AnimatedTerminal() {
           terminal
         </span>
       </div>
-      <div className="p-5 font-mono text-sm leading-6 min-h-[420px]">
+      <div className="p-4 sm:p-5 font-mono text-[11px] sm:text-sm leading-5 sm:leading-6 min-h-[380px] sm:min-h-[420px] overflow-x-auto">
         {lines.map((line, i) => (
           <div key={i} className={getLineColor(i)}>
             {line || "\u00A0"}
@@ -343,7 +343,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-36 sm:pt-40 pb-16 sm:pb-20 px-5 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -355,7 +355,7 @@ export default function Home() {
               <Sparkles className="w-3.5 h-3.5" />
               ESLint for AI Agents
             </div>
-            <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6">
               Sharpen your
               <br />
               <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
@@ -366,7 +366,7 @@ export default function Home() {
               Score, diagnose, and auto-fix your CLAUDE.md and agent workspace
               files. One command to make your AI agent dramatically better.
             </p>
-            <div className="flex items-center justify-center gap-4 flex-wrap">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <a
                 href="#get-started"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 transition-all font-semibold text-lg shadow-lg shadow-indigo-500/20"
@@ -398,7 +398,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-20 px-6" id="features">
+      <section className="py-16 sm:py-20 px-5 sm:px-6" id="features">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-14"
@@ -406,7 +406,7 @@ export default function Home() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
               Everything your agent needs
             </h2>
             <p className="text-slate-400 max-w-xl mx-auto">
@@ -415,7 +415,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             <FeatureCard
               icon={BarChart3}
               title="Multi-dimensional Score"
@@ -454,15 +454,15 @@ export default function Home() {
       </section>
 
       {/* Viral Loop Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-transparent via-indigo-950/10 to-transparent">
+      <section className="py-16 sm:py-20 px-5 sm:px-6 bg-gradient-to-b from-transparent via-indigo-950/10 to-transparent">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6">
                 Score it.
                 <br />
                 <span className="text-indigo-400">Share it.</span>
@@ -495,14 +495,14 @@ export default function Home() {
       </section>
 
       {/* Self-Evolving Section */}
-      <section className="py-20 px-6">
+      <section className="py-16 sm:py-20 px-5 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
               The platform gets{" "}
               <span className="text-emerald-400">smarter</span> with every
               lint.
@@ -516,7 +516,7 @@ export default function Home() {
 
           <FlywheelDiagram />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-10 sm:mt-14">
             {[
               {
                 title: "Rule Tuning",
@@ -565,7 +565,7 @@ export default function Home() {
       </section>
 
       {/* Get Started */}
-      <section className="py-20 px-6" id="get-started">
+      <section className="py-16 sm:py-20 px-5 sm:px-6" id="get-started">
         <div className="max-w-3xl mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -573,7 +573,7 @@ export default function Home() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
               Get started in 10 seconds
             </h2>
           </motion.div>
@@ -627,7 +627,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-[var(--al-border)]">
+      <footer className="py-12 px-5 sm:px-6 border-t border-[var(--al-border)]">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Search className="w-4 h-4 text-indigo-400" />
