@@ -542,6 +542,10 @@ https://agentlinter.com`;
                     Top <span className="mono font-medium" style={{ color: tier.color }}>{percentile}%</span> of all agent workspaces
                   </p>
                 </div>
+                <div className="mt-3 flex items-center gap-1.5 text-[11px] text-[var(--teal)]">
+                  <Lock className="w-3 h-3" />
+                  <span>Results only — your files never uploaded</span>
+                </div>
               </div>
 
               {/* Mini summary */}
@@ -1137,9 +1141,9 @@ https://agentlinter.com`;
 
         {/* ═══════ Privacy Note ═══════ */}
         <div className="rounded-xl border border-[var(--teal-dim)] bg-[var(--teal-dim)] p-4 flex items-start gap-3">
-          <CheckCircle2 className="w-4 h-4 text-[var(--teal)] mt-0.5 shrink-0" />
+          <Lock className="w-4 h-4 text-[var(--teal)] mt-0.5 shrink-0" />
           <div className="text-[12px] text-[var(--text-secondary)] leading-relaxed">
-            <span className="font-medium text-[var(--teal)]">Your data stays private.</span> AgentLinter runs 100% locally on your machine. Only scores, file names, and diagnostic messages are shared in this report — your actual file contents are never uploaded.{" "}
+            <span className="font-medium text-[var(--teal)]">🔒 Results only — files never uploaded.</span> AgentLinter scans 100% locally. This report contains only scores and diagnostic messages. Your actual file contents (CLAUDE.md, SOUL.md, etc.) never leave your machine.{" "}
             <a href="https://agentlinter.com/#privacy" className="text-[var(--teal)] hover:underline">Learn more →</a>
           </div>
         </div>
