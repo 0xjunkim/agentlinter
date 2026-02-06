@@ -18,8 +18,10 @@ const AGENT_FILES = [
   "BOOTSTRAP.md",
   ".clauderc",
   ".agentlinterrc",
+  // Runtime configs
   "clawdbot.json",
   "openclaw.json",
+  "moltbot.json",
 ];
 
 const AGENT_DIRS = [".claude", "claude", ".cursor", ".windsurf"];
@@ -33,10 +35,11 @@ function detectContext(fileNames: string[]): LintContext {
     return "claude-code";
   }
 
-  // AGENTS.md or openclaw.json → openclaw-runtime context
+  // AGENTS.md or runtime config → agent-runtime context
   if (fileNames.includes("AGENTS.md") ||
       fileNames.includes("openclaw.json") ||
-      fileNames.includes("clawdbot.json")) {
+      fileNames.includes("clawdbot.json") ||
+      fileNames.includes("moltbot.json")) {
     return "openclaw-runtime";
   }
 
@@ -99,11 +102,12 @@ export function scanWorkspace(workspacePath: string): FileInfo[] {
 
   // Check ~/.clawdbot/clawdbot.json (runtime config)
   const homeDir = process.env.HOME || process.env.USERPROFILE || "";
-  const clawdbotConfigPaths = [
+  const runtimeConfigPaths = [
     path.join(homeDir, ".clawdbot", "clawdbot.json"),
     path.join(homeDir, ".openclaw", "openclaw.json"),
+    path.join(homeDir, ".moltbot", "moltbot.json"),
   ];
-  for (const configPath of clawdbotConfigPaths) {
+  for (const configPath of runtimeConfigPaths) {
     if (fs.existsSync(configPath)) {
       const name = path.basename(configPath);
       files.push(parseFile(configPath, name, context));
@@ -116,6 +120,7 @@ export function scanWorkspace(workspacePath: string): FileInfo[] {
     path.join(workspacePath, "skills"),
     path.join(homeDir, ".clawdbot", "skills"),
     path.join(homeDir, ".openclaw", "skills"),
+    path.join(homeDir, ".moltbot", "skills"),
   ];
   for (const skillsDir of skillsDirs) {
     if (fs.existsSync(skillsDir) && fs.statSync(skillsDir).isDirectory()) {
