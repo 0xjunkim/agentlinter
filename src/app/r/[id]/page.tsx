@@ -137,13 +137,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!data) return { title: "Report Not Found — AgentLinter" };
 
   const tier = data.totalScore >= 95 ? "S" : data.totalScore >= 90 ? "A+" : data.totalScore >= 85 ? "A" : data.totalScore >= 80 ? "A-" : data.totalScore >= 75 ? "B+" : "B";
+  const diagnosticsCount = Array.isArray(data.diagnostics) ? data.diagnostics.length : 0;
 
   return {
     title: `${data.totalScore}/100 (${tier}) — AgentLinter Report`,
-    description: `Agent workspace scored ${data.totalScore}/100 — ${data.filesScanned} files scanned, ${data.diagnostics.length} issues found.`,
+    description: `Agent workspace scored ${data.totalScore}/100 — ${data.filesScanned} files scanned, ${diagnosticsCount} issues found.`,
     openGraph: {
       title: `${data.totalScore}/100 (${tier}) — AgentLinter Report`,
-      description: `Agent workspace scored ${data.totalScore}/100. ${data.filesScanned} files, ${data.diagnostics.length} issues.`,
+      description: `Agent workspace scored ${data.totalScore}/100. ${data.filesScanned} files, ${diagnosticsCount} issues.`,
     },
     twitter: {
       card: "summary",
@@ -153,12 +154,17 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const data = await fetchReport(id);
+  try {
+    const { id } = await params;
+    const data = await fetchReport(id);
 
-  if (!data) {
+    if (!data) {
+      notFound();
+    }
+
+    return <ReportPage data={data} />;
+  } catch (error) {
+    console.error("Page render error:", error);
     notFound();
   }
-
-  return <ReportPage data={data} />;
 }
