@@ -112,11 +112,11 @@ async function main() {
 ⭐ ${grade} tier · Top ${percentile}%
 
 Is YOUR AI agent sharp & secure?
-Free lint in one command:
+Try it yourself:
 
 npx agentlinter
 
-${url}
+https://agentlinter.com
 
 #AIAgents #Claude #Cursor #DevTools #OpenSource`;
           

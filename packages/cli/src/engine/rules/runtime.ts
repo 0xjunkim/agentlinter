@@ -111,6 +111,9 @@ export const runtimeRules: Rule[] = [
 
       const token = getNestedValue(config.json, "gateway.auth.token") as string | undefined;
       if (token) {
+        // Skip env var references - they'll be resolved at runtime
+        if (token.startsWith("${") && token.endsWith("}")) return [];
+        
         if (token.length < 16) {
           return [{
             severity: "error",

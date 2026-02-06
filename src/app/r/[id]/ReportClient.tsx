@@ -464,18 +464,16 @@ export default function ReportPage({ data }: { data: ReportData }) {
     .map((cat) => `${labels[cat.name] || ""}${cat.score}`)
     .join(" ");
 
-  const reportUrl = `agentlinter.com/r/${data.id || ""}`;
-  
   const shareText = `🧬 AgentLinter Score: ${data.totalScore}/100
 
 ⭐ ${tier.grade} tier · Top ${percentile}%
 
 Is YOUR AI agent sharp & secure?
-Free lint in one command:
+Try it yourself:
 
 npx agentlinter
 
-${reportUrl}
+https://agentlinter.com
 
 #AIAgents #Claude #Cursor #DevTools #OpenSource`;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
