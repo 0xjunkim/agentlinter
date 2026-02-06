@@ -468,14 +468,12 @@ export default function ReportPage({ data }: { data: ReportData }) {
 
 ⭐ ${tier.grade} tier · Top ${percentile}%
 
-Is YOUR AI agent sharp & secure?
-Try it yourself:
+Is YOUR AI agent secure?
+Free & open source — try it yourself:
 
 npx agentlinter
 
-https://agentlinter.com
-
-#AIAgents #Claude #Cursor #DevTools #OpenSource`;
+https://agentlinter.com`;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
   return (

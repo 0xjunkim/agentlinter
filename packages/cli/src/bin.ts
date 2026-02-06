@@ -111,14 +111,12 @@ async function main() {
 
 ⭐ ${grade} tier · Top ${percentile}%
 
-Is YOUR AI agent sharp & secure?
-Try it yourself:
+Is YOUR AI agent secure?
+Free & open source — try it yourself:
 
 npx agentlinter
 
-https://agentlinter.com
-
-#AIAgents #Claude #Cursor #DevTools #OpenSource`;
+https://agentlinter.com`;
           
           console.log(`\n  ${c.dim}Share on X: https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}${c.reset}\n`);
         }
