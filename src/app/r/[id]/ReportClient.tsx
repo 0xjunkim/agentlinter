@@ -450,31 +450,37 @@ export default function ReportPage({ data }: { data: ReportData }) {
 
   // Build category breakdown for share text
   const labels: Record<string, string> = {
-    structure: "📁 Structure",
-    clarity: "💡 Clarity", 
-    completeness: "📋 Completeness",
-    security: "🔒 Security",
-    consistency: "🔗 Consistency",
-    memory: "🧠 Memory",
-    runtime: "⚙️ Runtime",
-    skillSafety: "🛡️ Skills",
+    structure: "📁",
+    clarity: "💡", 
+    completeness: "📋",
+    security: "🔒",
+    consistency: "🔗",
+    memory: "🧠",
+    runtime: "⚙️",
+    skillSafety: "🛡️",
   };
-  const topCategories = [...data.categories]
+  const allCategories = [...data.categories]
     .sort((a, b) => b.score - a.score)
-    .slice(0, 4)
-    .map((cat) => `${labels[cat.name] || cat.name}: ${cat.score}`)
-    .join(" · ");
+    .map((cat) => `${labels[cat.name] || ""}${cat.score}`)
+    .join(" ");
 
-  const shareText = `🧬 My AI agent scored ${data.totalScore}/100 on AgentLinter!
+  const reportUrl = `agentlinter.com/r/${data.id || ""}`;
+  
+  const shareText = `🧬 AgentLinter Score: ${data.totalScore}/100
 
-${topCategories}
+┌─────────────────┐
+│ ${tier.grade} tier · Top ${percentile}% │
+└─────────────────┘
 
-Grade: ${tier.grade} · Top ${percentile}%
+${allCategories}
 
-Free & open source:
-npx agentlinter
+Is YOUR AI agent sharp & secure?
 
-#AIAgents #CLAUDE #DevTools`;
+▸ npx agentlinter
+
+${reportUrl}
+
+#AIAgents #Claude #Cursor #DevTools #OpenSource`;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
   return (

@@ -99,26 +99,29 @@ async function main() {
             runtime: "⚙️",
             skillSafety: "🛡️",
           };
-          const topCats = result.categories
+          const allCats = result.categories
             .sort((a, b) => b.score - a.score)
-            .slice(0, 4)
-            .map(c => `${catLabels[c.category] || ""} ${c.category}: ${c.score}`)
-            .join(" · ");
+            .map(c => `${catLabels[c.category] || ""}${c.score}`)
+            .join(" ");
           
           const grade = result.totalScore >= 95 ? "S" : result.totalScore >= 90 ? "A+" : result.totalScore >= 85 ? "A" : result.totalScore >= 80 ? "B+" : result.totalScore >= 70 ? "B" : "C";
+          const percentile = Math.max(1, Math.min(99, Math.round(100 - (result.totalScore - 50) * 2)));
           
-          const shareText = `🧬 My AI agent scored ${result.totalScore}/100 on AgentLinter!
+          const shareText = `🧬 AgentLinter Score: ${result.totalScore}/100
 
-${topCats}
+┌─────────────────┐
+│ ${grade} tier · Top ${percentile}% │
+└─────────────────┘
 
-Grade: ${grade}
+${allCats}
 
-Free & open source:
-npx agentlinter
+Is YOUR AI agent sharp & secure?
+
+▸ npx agentlinter
 
 ${url}
 
-#AIAgents #CLAUDE #DevTools`;
+#AIAgents #Claude #Cursor #DevTools #OpenSource`;
           
           console.log(`\n  ${c.dim}Share on X: https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}${c.reset}\n`);
         }
