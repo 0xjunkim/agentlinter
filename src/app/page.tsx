@@ -1060,6 +1060,7 @@ export default function Home() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto">
                 <Github className="w-4 h-4" />
                 Star on GitHub
+                <GitHubStarsBadge stars={stars} />
               </a>
               <a href="https://github.com/seojoonkim/agentlinter#readme" target="_blank"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--border)] text-[var(--text-secondary)] text-[14px] hover:text-white hover:border-[var(--border-hover)] transition-all w-full sm:w-auto">
@@ -1103,6 +1104,7 @@ export default function Home() {
               >
                 <Github className="w-3.5 h-3.5" />
                 Star on GitHub
+                <GitHubStarsBadge stars={stars} />
               </a>
               <a
                 href="https://github.com/seojoonkim/agentlinter/discussions"
@@ -1131,7 +1133,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-6 text-[13px] text-[var(--text-dim)]">
               <a href="https://github.com/seojoonkim/agentlinter" className="hover:text-[var(--text-secondary)] transition-colors flex items-center gap-1.5">
-                <Github className="w-3.5 h-3.5" /> GitHub
+                <Github className="w-3.5 h-3.5" /> GitHub <GitHubStarsBadge stars={stars} />
               </a>
               <a href="https://twitter.com/simonkim_nft" target="_blank" className="hover:text-[var(--text-secondary)] transition-colors">
                 @simonkim_nft
