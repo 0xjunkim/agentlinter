@@ -384,10 +384,19 @@ Score changes are posted as PR comments automatically.
 
 **Local-first by design.** All scanning and scoring runs 100% on your machine. Your file contents never leave.
 
-- All scanning happens locally — file contents never uploaded
-- **Report sharing is optional** — only scores + diagnostics are uploaded (not your files)
-- Use `--local` flag to skip sharing entirely
-- Secrets are auto-masked in reports
+### What stays local (always)
+- ✅ Your actual file contents (CLAUDE.md, SOUL.md, etc.)
+- ✅ System prompts and personal context
+- ✅ Security rules and sensitive instructions
+
+### What's shared (only when report link is generated)
+- 📊 Scores and grades
+- 📄 File names (not contents)
+- 💬 Diagnostic messages (e.g., "Line 28: vague instruction")
+
+### Options
+- Use `--local` flag to skip sharing entirely — zero network calls
+- Secrets are auto-masked in reports (API keys show as `[REDACTED]`)
 - No telemetry by default
 
 ---
