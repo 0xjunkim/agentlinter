@@ -448,7 +448,33 @@ export default function ReportPage({ data }: { data: ReportData }) {
   const totalRules = Object.values(CATEGORY_META).reduce((sum, c) => sum + c.rules.length, 0);
   const passedRules = totalRules - data.diagnostics.length;
 
-  const shareText = `My agent workspace scored ${data.totalScore}/100 (${tier.grade} tier, top ${percentile}%) on AgentLinter ⚡\n\nFree & open source — score your own:\nnpx agentlinter\n\nagentlinter.com`;
+  // Build category breakdown for share text
+  const labels: Record<string, string> = {
+    structure: "📁 Structure",
+    clarity: "💡 Clarity", 
+    completeness: "📋 Completeness",
+    security: "🔒 Security",
+    consistency: "🔗 Consistency",
+    memory: "🧠 Memory",
+    runtime: "⚙️ Runtime",
+    skillSafety: "🛡️ Skills",
+  };
+  const topCategories = [...data.categories]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4)
+    .map((cat) => `${labels[cat.name] || cat.name}: ${cat.score}`)
+    .join(" · ");
+
+  const shareText = `🧬 My AI agent scored ${data.totalScore}/100 on AgentLinter!
+
+${topCategories}
+
+Grade: ${tier.grade} · Top ${percentile}%
+
+Free & open source:
+npx agentlinter
+
+#AIAgents #CLAUDE #DevTools`;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
   return (

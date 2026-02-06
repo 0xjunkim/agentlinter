@@ -88,7 +88,39 @@ async function main() {
           console.log(`  │  ${c.cyan}${c.bold}→ ${url}${c.reset}`);
           console.log(`  │                                                 │`);
           console.log(`  └─────────────────────────────────────────────────┘`);
-          console.log(`\n  ${c.dim}Share on X: https://x.com/intent/tweet?text=${encodeURIComponent(`I scored ${result.totalScore}/100 on AgentLinter! ${url}`)}${c.reset}\n`);
+          // Build rich share text
+          const catLabels: Record<string, string> = {
+            structure: "📁",
+            clarity: "💡", 
+            completeness: "📋",
+            security: "🔒",
+            consistency: "🔗",
+            memory: "🧠",
+            runtime: "⚙️",
+            skillSafety: "🛡️",
+          };
+          const topCats = result.categories
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 4)
+            .map(c => `${catLabels[c.category] || ""} ${c.category}: ${c.score}`)
+            .join(" · ");
+          
+          const grade = result.totalScore >= 95 ? "S" : result.totalScore >= 90 ? "A+" : result.totalScore >= 85 ? "A" : result.totalScore >= 80 ? "B+" : result.totalScore >= 70 ? "B" : "C";
+          
+          const shareText = `🧬 My AI agent scored ${result.totalScore}/100 on AgentLinter!
+
+${topCats}
+
+Grade: ${grade}
+
+Free & open source:
+npx agentlinter
+
+${url}
+
+#AIAgents #CLAUDE #DevTools`;
+          
+          console.log(`\n  ${c.dim}Share on X: https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}${c.reset}\n`);
         }
       } catch (err) {
         if (!jsonOutput) {
