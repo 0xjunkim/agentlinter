@@ -2,11 +2,12 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { scanWorkspace, lint } from './engine';
 import { formatJSON } from './engine/reporter';
 import { uploadReport } from './upload';
 import { LintResult, Diagnostic } from './engine/types';
-import { auditSkillFile, formatAuditResult, formatAuditJSON } from './engine/audit-skill';
+import { auditSkillFile, formatAuditResult, formatAuditJSON, AuditResult } from './engine/audit-skill';
 
 const { version: VERSION } = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8')
@@ -33,6 +34,7 @@ async function main() {
   let share = true; // share by default
   let local = false;
   let auditSkillPath: string | null = null;
+  let noAudit = false; // --no-audit flag
 
   // Parse args
   for (let i = 0; i < args.length; i++) {
@@ -40,6 +42,7 @@ async function main() {
     if (arg === '--json') jsonOutput = true;
     else if (arg === '--share') share = true;
     else if (arg === '--local' || arg === '--no-share') { share = false; local = true; }
+    else if (arg === '--no-audit') noAudit = true;
     else if (arg === '--audit-skill') {
       auditSkillPath = args[++i];
     }
@@ -84,6 +87,16 @@ async function main() {
       console.log(formatJSON(result));
     } else {
       console.log(formatTerminalColored(result));
+    }
+
+    // Skills Security Scan (unless --no-audit)
+    if (!noAudit) {
+      const skillsResults = await scanSkillsFolders(targetDir, jsonOutput);
+      if (skillsResults.length > 0) {
+        if (!jsonOutput) {
+          console.log(formatSkillsScanResults(skillsResults));
+        }
+      }
     }
 
     if (share) {
@@ -304,10 +317,11 @@ function printHelp() {
 ${c.bold}AgentLinter CLI${c.reset}
 
 Usage:
-  npx agentlinter [path]              Lint workspace & share report
+  npx agentlinter [path]              Lint workspace & share report (includes skill scan)
   npx agentlinter --audit-skill FILE  Audit external skill file for trojans
   npx agentlinter --local             Lint without uploading
   npx agentlinter --json              Output raw JSON
+  npx agentlinter --no-audit          Skip skills security scan
 
 Commands:
   --audit-skill FILE   Deep security audit for skill files (MoltX-style attack detection)
@@ -315,14 +329,140 @@ Commands:
 
 Options:
   --local, --no-share  Skip report upload
+  --no-audit           Skip skills folder auto-scan
   --json               JSON output to stdout
   -h, --help           Show this help
 
+Skills Auto-Scan:
+  By default, AgentLinter scans these skill folders if they exist:
+    ./skills/           Project skills
+    .claude/skills/     Claude project skills
+    ~/.clawd/skills/    Global Clawd skills
+
 Examples:
-  npx agentlinter                          # Lint current directory
-  npx agentlinter --audit-skill skill.md   # Audit a skill file
+  npx agentlinter                          # Lint + scan skills
+  npx agentlinter --no-audit               # Lint only, skip skill scan
+  npx agentlinter --audit-skill skill.md   # Audit a single skill file
   npx agentlinter --audit-skill https://example.com/skill.md --json
 `);
+}
+
+/* ─── Skills Folder Scanning ─── */
+
+interface SkillScanResult {
+  folder: string;
+  skills: { name: string; result: AuditResult }[];
+}
+
+async function scanSkillsFolders(workspaceDir: string, jsonOutput: boolean): Promise<SkillScanResult[]> {
+  const results: SkillScanResult[] = [];
+  
+  // Skill folder candidates
+  const candidates = [
+    path.join(workspaceDir, 'skills'),
+    path.join(workspaceDir, '.claude', 'skills'),
+    path.join(os.homedir(), '.clawd', 'skills'),
+  ];
+  
+  for (const folder of candidates) {
+    if (!fs.existsSync(folder)) continue;
+    
+    const stat = fs.statSync(folder);
+    if (!stat.isDirectory()) continue;
+    
+    const skills: { name: string; result: AuditResult }[] = [];
+    const entries = fs.readdirSync(folder, { withFileTypes: true });
+    
+    for (const entry of entries) {
+      const entryPath = path.join(folder, entry.name);
+      
+      if (entry.isDirectory()) {
+        // Look for SKILL.md or skill.md inside
+        const skillMdPaths = [
+          path.join(entryPath, 'SKILL.md'),
+          path.join(entryPath, 'skill.md'),
+          path.join(entryPath, 'README.md'),
+        ];
+        
+        for (const skillMd of skillMdPaths) {
+          if (fs.existsSync(skillMd)) {
+            const content = fs.readFileSync(skillMd, 'utf-8');
+            const result = auditSkillFile(content, path.basename(skillMd));
+            skills.push({ name: entry.name, result });
+            break;
+          }
+        }
+      } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.txt'))) {
+        // Direct skill file
+        const content = fs.readFileSync(entryPath, 'utf-8');
+        const result = auditSkillFile(content, entry.name);
+        skills.push({ name: entry.name.replace(/\.(md|txt)$/, ''), result });
+      }
+    }
+    
+    if (skills.length > 0) {
+      results.push({ folder, skills });
+    }
+  }
+  
+  return results;
+}
+
+function formatSkillsScanResults(results: SkillScanResult[]): string {
+  const lines: string[] = [];
+  
+  lines.push("");
+  lines.push(`${c.bold}🔒 Skills Security Scan${c.reset}`);
+  lines.push("");
+  
+  let totalSafe = 0;
+  let totalSuspicious = 0;
+  let totalDangerous = 0;
+  let totalMalicious = 0;
+  
+  for (const { folder, skills } of results) {
+    const relFolder = folder.startsWith(os.homedir()) 
+      ? folder.replace(os.homedir(), '~') 
+      : folder;
+    lines.push(`${c.dim}Found ${skills.length} skill(s) in ${relFolder}${c.reset}`);
+    
+    for (const { name, result } of skills) {
+      let icon = "✅";
+      let status = `${c.green}SAFE${c.reset}`;
+      
+      if (result.verdict === "SUSPICIOUS") {
+        icon = "⚠️";
+        const warnings = result.findings.filter(f => f.severity === "WARNING").length;
+        status = `${c.yellow}SUSPICIOUS${c.reset} ${c.dim}(${warnings} warning${warnings !== 1 ? 's' : ''})${c.reset}`;
+        totalSuspicious++;
+      } else if (result.verdict === "DANGEROUS") {
+        icon = "🚨";
+        const criticals = result.findings.filter(f => f.severity === "CRITICAL").length;
+        status = `${c.red}DANGEROUS${c.reset} ${c.dim}(${criticals} critical${criticals !== 1 ? 's' : ''})${c.reset}`;
+        totalDangerous++;
+      } else if (result.verdict === "MALICIOUS") {
+        icon = "💀";
+        status = `${c.red}${c.bold}MALICIOUS${c.reset}`;
+        totalMalicious++;
+      } else {
+        totalSafe++;
+      }
+      
+      lines.push(`  ${icon} ${name}: ${status}`);
+    }
+    lines.push("");
+  }
+  
+  // Summary
+  const summaryParts: string[] = [];
+  if (totalSafe > 0) summaryParts.push(`${c.green}${totalSafe} SAFE${c.reset}`);
+  if (totalSuspicious > 0) summaryParts.push(`${c.yellow}${totalSuspicious} SUSPICIOUS${c.reset}`);
+  if (totalDangerous > 0) summaryParts.push(`${c.red}${totalDangerous} DANGEROUS${c.reset}`);
+  if (totalMalicious > 0) summaryParts.push(`${c.red}${c.bold}${totalMalicious} MALICIOUS${c.reset}`);
+  
+  lines.push(`Overall: ${summaryParts.join(' | ')}`);
+  
+  return lines.join("\n");
 }
 
 main().catch(console.error);
