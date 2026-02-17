@@ -255,4 +255,49 @@ export const completenessRules: Rule[] = [
       return [];
     },
   },
+
+  {
+    id: "completeness/verification-criteria-required",
+    category: "completeness",
+    severity: "warning",
+    description: "Agent config should define how to verify task completion",
+    check(files) {
+      const mainFile = files.find(
+        (f) => f.name === "CLAUDE.md" || f.name === "AGENTS.md"
+      );
+      if (!mainFile) return [];
+
+      const allContent = files
+        .filter((f) => !f.name.startsWith("compound/") && !f.name.startsWith("memory/"))
+        .map((f) => f.content)
+        .join("\n");
+
+      // Check for verification/success criteria language
+      const hasVerification =
+        /how\s+to\s+verify/i.test(allContent) ||
+        /success\s+criteria/i.test(allContent) ||
+        /verification\s+criteria/i.test(allContent) ||
+        /definition\s+of\s+done/i.test(allContent) ||
+        /done\s+when/i.test(allContent) ||
+        /task\s+(?:is\s+)?(?:complete|done|finished)\s+when/i.test(allContent) ||
+        /how\s+(?:to\s+)?(?:check|confirm|validate)/i.test(allContent) ||
+        /\btest\s+(?:the\s+)?(?:output|result|response)\b/i.test(allContent) ||
+        /verify\s+(?:the\s+)?(?:output|result|task|work)/i.test(allContent);
+
+      if (!hasVerification) {
+        return [
+          {
+            severity: "warning",
+            category: "completeness",
+            rule: this.id,
+            file: mainFile.name,
+            message:
+              "No verification criteria found. Without success criteria, the agent can't confirm task completion.",
+            fix: 'Add a "Verification" section or "done when" conditions. Example: "Task complete when: tests pass, code builds, user confirms."',
+          },
+        ];
+      }
+      return [];
+    },
+  },
 ];

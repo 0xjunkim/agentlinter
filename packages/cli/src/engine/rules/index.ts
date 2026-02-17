@@ -9,6 +9,7 @@ import { consistencyRules } from "./consistency";
 import { memoryRules } from "./memory";
 import { runtimeRules } from "./runtime";
 import { skillSafetyRules } from "./skillSafety";
+import { remoteReadyRules } from "./remoteReady";
 
 export const allRules: Rule[] = [
   ...structureRules,
@@ -19,6 +20,7 @@ export const allRules: Rule[] = [
   ...memoryRules,
   ...runtimeRules,
   ...skillSafetyRules,
+  ...remoteReadyRules,
 ];
 
 export {
@@ -30,4 +32,5 @@ export {
   memoryRules,
   runtimeRules,
   skillSafetyRules,
+  remoteReadyRules,
 };

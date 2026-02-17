@@ -13,6 +13,7 @@ import { bestPracticesRules } from "./bestPractices";
 import { autofixRules } from "./autofix";
 import { integrationRules } from "./integration";
 import { claudeCodeRules } from "./claudeCode";
+import { remoteReadyRules } from "./remoteReady";
 
 export const allRules: Rule[] = [
   ...structureRules,
@@ -27,6 +28,7 @@ export const allRules: Rule[] = [
   ...autofixRules,
   ...integrationRules,
   ...claudeCodeRules,
+  ...remoteReadyRules,
 ];
 
 export {
@@ -42,4 +44,5 @@ export {
   autofixRules,
   integrationRules,
   claudeCodeRules,
+  remoteReadyRules,
 };

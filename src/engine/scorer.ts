@@ -23,7 +23,7 @@ export function lint(workspacePath: string, files: FileInfo[]): LintResult {
   for (const rule of allRules) {
     try {
       const targetFiles =
-        rule.category === "skillSafety" || rule.category === "runtime"
+        rule.category === "skillSafety" || rule.category === "runtime" || rule.category === "remoteReady"
           ? files       // these categories check everything
           : coreFiles;  // other categories only check core agent files
       const diagnostics = rule.check(targetFiles);
@@ -44,6 +44,7 @@ export function lint(workspacePath: string, files: FileInfo[]): LintResult {
     "memory",
     "runtime",
     "skillSafety",
+    "remoteReady",
   ];
 
   const categoryScores: CategoryScore[] = categories.map((cat) => {
@@ -178,6 +179,19 @@ function computeBonus(category: Category, files: FileInfo[]): number {
       // If no skills present, give full marks (nothing to check)
       if (skillFiles.length === 0) bonus += 10;
       break;
+
+    case "remoteReady": {
+      const allRemoteContent = files
+        .filter((f) => !f.name.startsWith("memory/"))
+        .map((f) => f.content)
+        .join("\n");
+
+      if (/(?:repo|workspace|workdir|cwd)\s*=\s*\/[^\s]+/i.test(allRemoteContent)) bonus += 5;
+      if (/env(?:ironment)?\s+var(?:iable)?s?/i.test(allRemoteContent)) bonus += 5;
+      if (/model\s*[:=]\s*["']?(?:anthropic|openai|google|xai|gpt|claude|gemini|grok)/i.test(allRemoteContent)) bonus += 5;
+      if (/##\s*Runtime/i.test(allRemoteContent)) bonus += 5;
+      break;
+    }
   }
 
   return bonus;

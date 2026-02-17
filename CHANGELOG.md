@@ -2,6 +2,58 @@
 
 All notable changes to AgentLinter will be documented in this file.
 
+## [0.8.2] - 2026-02-17
+
+### ✨ 신규 룰 4개 + Remote-Ready Score 카테고리
+
+#### SkillSafety - 신규 2개
+
+- **`skill-safety/skill-name-match-dir`** 🔴 ERROR
+  - SKILL.md의 `name` frontmatter 필드가 부모 디렉토리명과 일치하는지 체크
+  - ClawdHub은 디렉토리명으로 스킬을 라우팅하므로 불일치 시 배포 오류
+  - 예: `skills/weather/SKILL.md`의 name이 "weather"여야 함
+
+- **`skill-safety/skill-description-when-to-use`** ⚠️ WARNING
+  - SKILL.md의 `description` 필드에 "when to use", "use when", "when Claude" 등 사용 조건 설명 포함 여부 체크
+  - Claude의 자동 invoke 결정에 사용 조건이 명시되어야 정확한 호출 가능
+
+#### Completeness - 신규 1개
+
+- **`completeness/verification-criteria-required`** ⚠️ WARNING (HIGH)
+  - CLAUDE.md/AGENTS.md에 작업 검증 기준이 있는지 체크
+  - "how to verify", "success criteria", "done when", "verify result" 등 검증 관련 언어 탐지
+  - 검증 기준 없으면 에이전트가 작업 완료 여부를 판단할 수 없음
+
+#### Remote-Ready Score 카테고리 (신규, 5%)
+
+새 카테고리 `remoteReady` 추가. 원격/헤드리스 실행 시 필요한 설정 3가지 체크:
+
+- **`remote-ready/workspace-path-specified`** ⚠️ WARNING
+  - workspace/repo 경로 명시 여부 (예: `repo=/Users/username/project`)
+  
+- **`remote-ready/env-vars-documented`** ⚠️ WARNING
+  - 환경변수 사용 시 문서화 여부 (env vars 참조 있는데 문서 없으면 경고)
+  
+- **`remote-ready/model-settings-specified`** 💡 INFO
+  - 기본 모델 설정 명시 여부 (재현 가능한 원격 실행을 위해)
+
+### 🐛 버그 수정
+
+- **CLI: `error` severity 미표시 버그 수정**
+  - `error` 타입 diagnostic이 "💡 TIP"으로 잘못 표시되던 문제 수정
+  - `🔴 ERROR` 레이블과 빨간색으로 올바르게 표시
+  - 정렬 순서: critical → error → warning → info
+
+### ⚖️ 가중치 조정
+
+| 카테고리 | 이전 | 이후 |
+|---------|------|------|
+| clarity | 20% | 18% |
+| runtime | 13% | 10% |
+| remoteReady | - | 5% (신규) |
+
+---
+
 ## [0.8.1] - 2026-02-17
 
 ### 🐛 False Positive 버그 수정 5개

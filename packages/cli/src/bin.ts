@@ -127,6 +127,7 @@ async function main() {
             memory: "🧠",
             runtime: "⚙️",
             skillSafety: "🛡️",
+            remoteReady: "🌐",
           };
           const allCats = result.categories
             .sort((a, b) => b.score - a.score)
@@ -221,17 +222,19 @@ function formatTerminalColored(result: LintResult): string {
 
   // Diagnostics
   const sorted = [...result.diagnostics].sort((a, b) => {
-    const sevScore: Record<string, number> = { critical: 0, error: 0, warning: 1, info: 2 };
-    return ((sevScore[a.severity] ?? 1) - (sevScore[b.severity] ?? 1)) || a.file.localeCompare(b.file);
+    const sevScore: Record<string, number> = { critical: 0, error: 1, warning: 2, info: 3 };
+    return ((sevScore[a.severity] ?? 2) - (sevScore[b.severity] ?? 2)) || a.file.localeCompare(b.file);
   });
 
   const criticals = sorted.filter(d => d.severity === 'critical');
+  const errors = sorted.filter(d => d.severity === 'error');
   const warnings = sorted.filter(d => d.severity === 'warning');
   const infos = sorted.filter(d => d.severity === 'info');
   
   {
       const parts = [];
       if (criticals.length) parts.push(`${c.red}${criticals.length} critical(s)${c.reset}`);
+      if (errors.length) parts.push(`${c.red}${errors.length} error(s)${c.reset}`);
       if (warnings.length) parts.push(`${c.yellow}${warnings.length} warning(s)${c.reset}`);
       if (infos.length) parts.push(`${c.blue}${infos.length} suggestion(s)${c.reset}`);
       if (parts.length > 0) {
@@ -244,6 +247,7 @@ function formatTerminalColored(result: LintResult): string {
     let icon = "💡 TIP ";
     let color = c.blue;
     if (diag.severity === "critical") { icon = "🔴 CRITICAL"; color = c.red; }
+    else if (diag.severity === "error") { icon = "🔴 ERROR  "; color = c.red; }
     else if (diag.severity === "warning") { icon = "⚠️  WARN"; color = c.yellow; }
 
     const location = diag.line ? `${diag.file}:${diag.line}` : diag.file;

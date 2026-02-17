@@ -47,6 +47,92 @@ function isSecuritySkill(file: { name: string; content: string }): boolean {
 
 export const skillSafetyRules: Rule[] = [
   {
+    id: "skill-safety/skill-name-match-dir",
+    category: "skillSafety",
+    severity: "error",
+    description: "SKILL.md name frontmatter must match parent directory name",
+    check(files) {
+      const diagnostics: Diagnostic[] = [];
+      const skillFiles = files.filter(
+        (f) => f.name.includes("skills/") && f.name.endsWith("SKILL.md")
+      );
+
+      for (const file of skillFiles) {
+        if (!file.content.startsWith("---")) continue;
+
+        const frontmatter = file.content.split("---")[1] || "";
+        const nameMatch = frontmatter.match(/^name:\s*["']?([^\n"']+)["']?/m);
+        if (!nameMatch) continue; // missing name is caught by has-metadata
+
+        const declaredName = nameMatch[1].trim();
+
+        // Extract parent dir name from path like "skills/weather/SKILL.md"
+        const parts = file.name.split("/");
+        const skillDirIndex = parts.lastIndexOf("SKILL.md") - 1;
+        if (skillDirIndex < 0) continue;
+        const dirName = parts[skillDirIndex];
+
+        if (declaredName !== dirName) {
+          diagnostics.push({
+            severity: "error",
+            category: "skillSafety",
+            rule: this.id,
+            file: file.name,
+            message: `Skill name "${declaredName}" does not match directory name "${dirName}". ClawdHub uses the directory name for routing.`,
+            fix: `Change name to "${dirName}" in frontmatter, or rename the directory to "${declaredName}".`,
+          });
+        }
+      }
+      return diagnostics;
+    },
+  },
+
+  {
+    id: "skill-safety/skill-description-when-to-use",
+    category: "skillSafety",
+    severity: "warning",
+    description: "SKILL.md description should explain when to use the skill",
+    check(files) {
+      const diagnostics: Diagnostic[] = [];
+      const skillFiles = files.filter(
+        (f) => f.name.includes("skills/") && f.name.endsWith("SKILL.md")
+      );
+
+      for (const file of skillFiles) {
+        if (!file.content.startsWith("---")) continue;
+
+        const frontmatter = file.content.split("---")[1] || "";
+        const descMatch = frontmatter.match(/^description:\s*["']?([^\n"']+)["']?/m);
+        if (!descMatch) continue; // missing description handled by has-metadata
+
+        const description = descMatch[1].trim();
+
+        // Check if description includes "when to use" guidance
+        const hasWhenToUse =
+          /when\s+to\s+use/i.test(description) ||
+          /use\s+when/i.test(description) ||
+          /when\s+claude/i.test(description) ||
+          /when\s+(?:the\s+)?(?:user|agent)/i.test(description) ||
+          /for\s+(?:when|situations?\s+where)/i.test(description) ||
+          /invok(?:e|ed)\s+when/i.test(description) ||
+          /trigger(?:ed)?\s+when/i.test(description);
+
+        if (!hasWhenToUse) {
+          diagnostics.push({
+            severity: "warning",
+            category: "skillSafety",
+            rule: this.id,
+            file: file.name,
+            message: `Skill description does not explain when to use it: "${description.substring(0, 80)}"`,
+            fix: 'Add "when to use" context to description. Example: "Use when user asks for X" or "When Claude needs to Y".',
+          });
+        }
+      }
+      return diagnostics;
+    },
+  },
+
+  {
     id: "skill-safety/has-metadata",
     category: "skillSafety",
     severity: "warning",
